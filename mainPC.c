@@ -116,7 +116,7 @@ uint16_t get_frame_line(int indice)
 }
 
 
-uint16_t compute_column(uint16_t * frame, int column_num, int pos)
+uint16_t compute_column(int column_num, int pos)
 {
 	uint16_t column_value=0;
 	int i;
@@ -127,13 +127,13 @@ uint16_t compute_column(uint16_t * frame, int column_num, int pos)
 	return column_value;
 }
 
-void print_frame(uint16_t * frame, int pos)
+void print_frame(int pos)
 {
 	int i;
 	printf(" ----------------------------------\n");
 	for(i=0;i<16;i++)
 	{
-		print_column(compute_column(frame+pos,i,pos));
+		print_column(compute_column(i,pos));
 	}
 	printf(" ----------------------------------\n");
 }
@@ -141,7 +141,7 @@ void print_frame(uint16_t * frame, int pos)
 void animation()
 {
 	static int pos=0;
-	print_frame(frame,pos);
+	print_frame(pos);
 	printf("\033[2J\033[1;1H");
 	usleep(50000);
 	pos=(pos+1)%57;

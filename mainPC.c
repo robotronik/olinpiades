@@ -19,13 +19,25 @@ void print_column(uint16_t column)
 	printf(" |\n");
 }
 
+
+uint16_t compute_column(uint16_t * frame, int column_num)
+{
+	uint16_t column_value=0;
+	int i;
+	for (i = 0; i < 16; i++)
+	{
+		column_value|=(((frame[i])>>column_num)&1)<<(15-i);
+	}
+	return column_value;
+}
+
 void print_frame(uint16_t * frame, int pos)
 {
 	int i;
 	printf(" ----------------------------------\n");
 	for(i=0;i<16;i++)
 	{
-		print_column(*(frame+(i+pos)%57));
+		print_column(compute_column(frame+pos,i));
 	}
 	printf(" ----------------------------------\n");
 }
@@ -118,7 +130,7 @@ void animation()
 
 		0x0000, //            
 		0x0000, //            
-		0x00000 //  
+		0x0000 //  
 	};
 	print_frame(frame,pos);
 	printf("\033[2J\033[1;1H");

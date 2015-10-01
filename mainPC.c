@@ -2,6 +2,76 @@
 #include <stdint.h>
 #include <unistd.h>
 
+#define FRAME_LEN 57
+
+static uint16_t frame[]=
+{
+	0x0000, //            
+	0x0060, //      ##    
+	0x03E0, //   #####    
+	0x0060, //      ##    
+	0x0060, //      ##    
+	0x0060, //      ##    
+	0x0060, //      ##    
+	0x0060, //      ##    
+	0x0060, //      ##    
+	0x0060, //      ##    
+	0x03FC, //   ######## 
+	0x0000, //            
+	0x0000, //            
+	0x0000, //            
+	0x0000, //            
+	0x0000, //    
+
+	0x0000, //            
+	0x0000, //            
+	0x0000, //          
+
+
+	0x0000, //            
+	0x00F0, //     ####   
+	0x0198, //    ##  ##  
+	0x0318, //   ##   ##  
+	0x0318, //   ##   ##  
+	0x0030, //       ##   
+	0x0060, //      ##    
+	0x00C0, //     ##     
+	0x0180, //    ##      
+	0x0300, //   ##       
+	0x03F8, //   #######  
+	0x0000, //            
+	0x0000, //            
+	0x0000, //            
+	0x0000, //            
+	0x0000, //  
+
+	0x0000, //            
+	0x0000, //            
+	0x0000, //            
+
+
+	0x0000, //            
+	0x03F0, //   ######   
+	0x0618, //  ##    ##  
+	0x0018, //        ##  
+	0x0030, //       ##   
+	0x01F0, //    #####   
+	0x0038, //       ###  
+	0x0018, //        ##  
+	0x0018, //        ##  
+	0x0618, //  ##    ##  
+	0x03F0, //   ######   
+	0x0000, //            
+	0x0000, //            
+	0x0000, //            
+	0x0000, //            
+	0x0000, //  
+
+	0x0000, //            
+	0x0000, //            
+	0x0000 //  
+};
+
 void print_bin(uint16_t num_bin)
 {
     unsigned i;
@@ -19,32 +89,8 @@ void print_column(uint16_t column)
 	printf(" |\n");
 }
 
-
-uint16_t compute_column(uint16_t * frame, int column_num)
+uint16_t get_frame_line(int indice)
 {
-	uint16_t column_value=0;
-	int i;
-	for (i = 0; i < 16; i++)
-	{
-		column_value|=(((frame[i])>>column_num)&1)<<(15-i);
-	}
-	return column_value;
-}
-
-void print_frame(uint16_t * frame, int pos)
-{
-	int i;
-	printf(" ----------------------------------\n");
-	for(i=0;i<16;i++)
-	{
-		print_column(compute_column(frame+pos,i));
-	}
-	printf(" ----------------------------------\n");
-}
-
-void animation()
-{
-	static int pos=0;
 	/*static uint16_t frame[]=
 	{0b0000000000000000,
 	 0b0000000110000000,
@@ -65,73 +111,36 @@ void animation()
 	 0b0000000000000000,
 	 0b0000000000000000,
 	 0b0000000000000000};*/
-	static uint16_t frame[]=
+
+	return frame[indice%FRAME_LEN];
+}
+
+
+uint16_t compute_column(uint16_t * frame, int column_num, int pos)
+{
+	uint16_t column_value=0;
+	int i;
+	for (i = 0; i < 16; i++)
 	{
-		0x0000, //            
-		0x0060, //      ##    
-		0x03E0, //   #####    
-		0x0060, //      ##    
-		0x0060, //      ##    
-		0x0060, //      ##    
-		0x0060, //      ##    
-		0x0060, //      ##    
-		0x0060, //      ##    
-		0x0060, //      ##    
-		0x03FC, //   ######## 
-		0x0000, //            
-		0x0000, //            
-		0x0000, //            
-		0x0000, //            
-		0x0000, //    
+		column_value|=(((get_frame_line(i+pos))>>column_num)&1)<<(15-i);
+	}
+	return column_value;
+}
 
-		0x0000, //            
-		0x0000, //            
-		0x0000, //          
+void print_frame(uint16_t * frame, int pos)
+{
+	int i;
+	printf(" ----------------------------------\n");
+	for(i=0;i<16;i++)
+	{
+		print_column(compute_column(frame+pos,i%(57-pos),pos));
+	}
+	printf(" ----------------------------------\n");
+}
 
-
-		0x0000, //            
-		0x00F0, //     ####   
-		0x0198, //    ##  ##  
-		0x0318, //   ##   ##  
-		0x0318, //   ##   ##  
-		0x0030, //       ##   
-		0x0060, //      ##    
-		0x00C0, //     ##     
-		0x0180, //    ##      
-		0x0300, //   ##       
-		0x03F8, //   #######  
-		0x0000, //            
-		0x0000, //            
-		0x0000, //            
-		0x0000, //            
-		0x0000, //  
-
-		0x0000, //            
-		0x0000, //            
-		0x0000, //            
-
-
-		0x0000, //            
-		0x03F0, //   ######   
-		0x0618, //  ##    ##  
-		0x0018, //        ##  
-		0x0030, //       ##   
-		0x01F0, //    #####   
-		0x0038, //       ###  
-		0x0018, //        ##  
-		0x0018, //        ##  
-		0x0618, //  ##    ##  
-		0x03F0, //   ######   
-		0x0000, //            
-		0x0000, //            
-		0x0000, //            
-		0x0000, //            
-		0x0000, //  
-
-		0x0000, //            
-		0x0000, //            
-		0x0000 //  
-	};
+void animation()
+{
+	static int pos=0;
 	print_frame(frame,pos);
 	printf("\033[2J\033[1;1H");
 	usleep(50000);

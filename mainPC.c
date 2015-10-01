@@ -133,7 +133,7 @@ void print_frame(uint16_t * frame, int pos)
 	printf(" ----------------------------------\n");
 	for(i=0;i<16;i++)
 	{
-		print_column(compute_column(frame+pos,i%(57-pos),pos));
+		print_column(compute_column(frame+pos,i,pos));
 	}
 	printf(" ----------------------------------\n");
 }

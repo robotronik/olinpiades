@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <unistd.h>
 
-#define FRAME_LEN 57
+#define FRAME_LEN 48
 
 static uint16_t frame[]=
 {
@@ -21,11 +21,7 @@ static uint16_t frame[]=
 	0x0000, //            
 	0x0000, //            
 	0x0000, //            
-	0x0000, //    
-
-	0x0000, //            
-	0x0000, //            
-	0x0000, //          
+	0x0000, //         
 
 
 	0x0000, //            
@@ -43,11 +39,7 @@ static uint16_t frame[]=
 	0x0000, //            
 	0x0000, //            
 	0x0000, //            
-	0x0000, //  
-
-	0x0000, //            
-	0x0000, //            
-	0x0000, //            
+	0x0000, //       
 
 
 	0x0000, //            
@@ -65,11 +57,7 @@ static uint16_t frame[]=
 	0x0000, //            
 	0x0000, //            
 	0x0000, //            
-	0x0000, //  
-
-	0x0000, //            
-	0x0000, //            
-	0x0000 //  
+	0x0000, //
 };
 
 void print_bin(uint16_t num_bin)
@@ -144,7 +132,7 @@ void animation()
 	print_frame(pos);
 	printf("\033[2J\033[1;1H");
 	usleep(50000);
-	pos=(pos+1)%57;
+	pos=(pos+1)%FRAME_LEN;
 } 
 
 int main()

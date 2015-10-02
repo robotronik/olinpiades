@@ -7,6 +7,11 @@ int get_nbr_tick_D();
 int get_nbr_tick_G();
 int doit_attendre();*/
 
+////////////////////////////////
+void print_column(uint16_t column);
+void select_column(int num_column);
+////////////////////////////////
+
 void init_hardware();
 void set_PWM_moteur_D(int PWM);
 void set_PWM_moteur_G(int PWM);

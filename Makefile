@@ -1,7 +1,7 @@
 PROJECT=ol'inpiades
 default: all
 # Default Options
-export ARCH  ?= dsPIC33F
+export ARCH  ?= PC
 
 export SDL   ?= yes
 export DEBUG ?= _WARNING_
@@ -18,11 +18,12 @@ include $(PARENT_DIR)/hardware/common.mk
 
 FICHIERS_C =	\
 	main.c		\
-	affichage.c
+	affichage.c \
+	text.c 		\
 
 # Fichier de hardware dépendant de l'architecture
 HARDWARE_C = hardware_$(ARCH).c
-FICHIERS_C+= $(HARDWARE_C) main.c
+FICHIERS_C+= $(HARDWARE_C) main.c font.c
 
 FICHIERS_O  += $(addprefix $(BUILD_DIR)/, $(FICHIERS_C:.c=.o) )
 

@@ -18,7 +18,8 @@ include $(PARENT_DIR)/hardware/common.mk
 
 FICHIERS_C =	\
 	main.c		\
-	affichage.c
+	affichage.c \
+	text.c 		\
 
 # Fichier de hardware dépendant de l'architecture
 HARDWARE_C = hardware_$(ARCH).c

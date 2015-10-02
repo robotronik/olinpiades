@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <stdint.h>
-#include <unistd.h>
-#include "font.h"
-#include "affichage.h"
+#include "text.h"
 
 int main()
 {

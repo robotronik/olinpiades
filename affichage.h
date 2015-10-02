@@ -13,7 +13,10 @@ void selectionne_colonne(int ligne);
 
 
 // Après avoir sélectionné la colonne, il faut sélectionner les lignes à afficher
-void ajoute_ligne(args...);
+void ajoute_ligne();
 
 
 void affiche_frame();
+
+void animation();
+void init_text_display();

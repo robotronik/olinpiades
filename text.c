@@ -4,15 +4,15 @@
 #include "font.h"
 #include "affichage.h"
 
-#define LEN_TEXT 9
+#define LEN_TEXT 15
 
-static char texte[]="bonjour  ";
-static uint16_t text_display[7*16];
+static char texte[]="Hello World !  ";
+static uint16_t text_display[LEN_TEXT*16];
 
 void init_text_display()
 {
 	int i,j;
-	for(i=0;i<7;i++)
+	for(i=0;i<LEN_TEXT;i++)
 	{
 		for(j=0;j<16;j++)
 		{

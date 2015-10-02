@@ -28,8 +28,3 @@ void shift_columns(uint16_t new_column)
 		debut_frame=0;
 	}
 }
-
-void compute_next_frame()
-{
-
-}

@@ -19,7 +19,7 @@ void print_frame()
 	}
 }
 
-void shift_frame(uint16_t new_column)
+void shift_columns(uint16_t new_column)
 {
 	frame[debut_frame]=new_column;
 	debut_frame+=1;

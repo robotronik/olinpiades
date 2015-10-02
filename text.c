@@ -53,7 +53,7 @@ uint16_t get_next_column()
 
 void animation()
 {
-	shift_frame(get_next_column());
+	shift_columns(get_next_column());
 	print_frame();
 	usleep(50000);
 } 

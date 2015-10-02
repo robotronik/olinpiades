@@ -2,7 +2,7 @@
 #define AFFICHAGE_H
 
 ////////////////////////////////
-void shift_frame(uint16_t new_column);
+void shift_columns(uint16_t new_column);
 void print_frame();
 ////////////////////////////////
 

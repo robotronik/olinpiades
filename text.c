@@ -4,9 +4,9 @@
 #include "font.h"
 #include "affichage.h"
 
-#define LEN_TEXT 15
+#define LEN_TEXT 13
 
-static char texte[]="Hello World !  ";
+static char texte[]="Hello World  ";
 
 uint16_t get_char_line(int line_num, char caractere)
 {
@@ -30,11 +30,11 @@ uint16_t get_next_column()
 	static int column_num=0;
 	uint16_t next_column=get_column(column_num,char_actuel);
 	column_num+=1;
-	if(column_num==16)
+	if(column_num==11)
 	{
 		char_actuel=(char_actuel+1)%LEN_TEXT;
 	}
-	column_num%=16;
+	column_num%=11;
 	return next_column;
 }
 

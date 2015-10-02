@@ -1,6 +1,9 @@
 #include <stdint.h>
 #include <stdio.h>
 
+static uint16_t actual_frame[16];
+static uint16_t actual_column=0;
+
 void print_bin(uint16_t num_bin)
 {
     unsigned i;
@@ -11,28 +14,36 @@ void print_bin(uint16_t num_bin)
     }
 }
 
+uint16_t get_line(int line_num)
+{
+    uint16_t line_value=0;
+    int i;
+    for (i = 0; i < 16; i++)
+    {
+        line_value|=(((actual_frame[i])>>(15-line_num))&1)<<(15-i);
+    }
+    return line_value;
+}
+
 void print_column(uint16_t column)
 {
-    static int cpt=16;
-    cpt--;
-    printf("| ");
-    print_bin(column);
-    printf(" |\n");
-    if(cpt==0)
+    actual_frame[actual_column]=column;
+    if(actual_column==0)
     {
-        //fin de la frame
+        printf("\033[2J\033[1;1H");
         printf(" ----------------------------------\n");
-        cpt=16;
+        int i;
+        for(i=0;i<16;i++)
+        {
+            printf("| ");
+            print_bin(get_line(i));
+            printf(" |\n");
+        }
+        printf(" ----------------------------------\n");
     }
 }
 
 void select_column(int num_column)
 {
-    if(num_column==15)
-    {
-        //"reset" du terminal
-        printf("\033[2J\033[1;1H");
-        //début de la nouvelle frame
-        printf(" ----------------------------------\n");
-    }
+    actual_column=num_column;
 }

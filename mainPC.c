@@ -1,12 +1,28 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <unistd.h>
+#include "font16.h"
 
-#define LEN_TEXT 3
+#define LEN_TEXT 9
 
 static int debut_frame=15;
 static uint16_t frame[16];
 
+static char texte[]="bonjour  ";
+static uint16_t text_display[7*16];
+
+void init_text_display()
+{
+	int i,j;
+	for(i=0;i<7;i++)
+	{
+		for(j=0;j<16;j++)
+		{
+			text_display[i*16+j]=(get_font(texte[i])[j]);
+		}
+	}
+}
+/*
 static uint16_t text_display[]=
 {
 	0x0000, //            
@@ -61,7 +77,7 @@ static uint16_t text_display[]=
 	0x0000, //            
 	0x0000, //            
 	0x0000, //
-};
+};*/
 
 void print_bin(uint16_t num_bin)
 {
@@ -183,6 +199,14 @@ void animation()
 
 int main()
 {
+	init_text_display();
+	/*int i;
+	for(i=0;i<7*16;i++)
+	{
+		print_bin(get_text_line(i));
+		printf("\n");
+	}
+	while(1);*/
 	while(1)
 	{
 		animation();

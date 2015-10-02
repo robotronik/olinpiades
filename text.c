@@ -7,32 +7,19 @@
 #define LEN_TEXT 15
 
 static char texte[]="Hello World !  ";
-static uint16_t text_display[LEN_TEXT*16];
 
-void init_text_display()
+uint16_t get_char_line(int line_num, char caractere)
 {
-	int i,j;
-	for(i=0;i<LEN_TEXT;i++)
-	{
-		for(j=0;j<16;j++)
-		{
-			text_display[i*16+j]=(get_font(texte[i])[j]);
-		}
-	}
+	return get_font(caractere)[line_num];
 }
 
-uint16_t get_text_line(int indice)
-{
-	return text_display[indice%(LEN_TEXT*16)];
-}
-
-uint16_t get_column(int column_num, int pos)
+uint16_t get_column(int column_num, int char_num)
 {
 	uint16_t column_value=0;
 	int i;
 	for (i = 0; i < 16; i++)
 	{
-		column_value|=(((get_text_line(i+pos))>>(15-column_num))&1)<<(15-i);
+		column_value|=(((get_char_line(i,texte[char_num]))>>(15-column_num))&1)<<(15-i);
 	}
 	return column_value;
 }
@@ -41,7 +28,7 @@ uint16_t get_next_column()
 {
 	static int char_actuel=0;
 	static int column_num=0;
-	uint16_t next_column=get_column(column_num,char_actuel*16);
+	uint16_t next_column=get_column(column_num,char_actuel);
 	column_num+=1;
 	if(column_num==16)
 	{

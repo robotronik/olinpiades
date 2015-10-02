@@ -13,22 +13,22 @@ void print_bin(uint16_t num_bin)
 
 void print_column(uint16_t column)
 {
-    static int cpt=0;
-    cpt++;
+    static int cpt=16;
+    cpt--;
     printf("| ");
     print_bin(column);
     printf(" |\n");
-    if(cpt==16)
+    if(cpt==0)
     {
         //fin de la frame
         printf(" ----------------------------------\n");
-        cpt=0;
+        cpt=16;
     }
 }
 
 void select_column(int num_column)
 {
-    if(num_column==0)
+    if(num_column==15)
     {
         //"reset" du terminal
         printf("\033[2J\033[1;1H");

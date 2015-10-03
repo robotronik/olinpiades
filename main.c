@@ -60,8 +60,8 @@ const KeyList test_keylist_y = {
 const KeyList test_keylist_wave = {
 2,
 {
-{8,10,Linear},
-{11,10,Linear},
+{8,7,Linear},
+{11,3,Linear},
 }
 };
 

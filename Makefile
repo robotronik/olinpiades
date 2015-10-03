@@ -20,6 +20,9 @@ FICHIERS_C =	\
 	main.c		\
 	affichage.c \
 	text.c 		\
+	framebuffer.c \
+	sprite.c \
+	keyanimation.c \
 
 # Fichier de hardware dépendant de l'architecture
 HARDWARE_C = hardware_$(ARCH).c

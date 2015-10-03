@@ -28,19 +28,16 @@ uint16_t get_line(int line_num)
 void print_column(uint16_t column)
 {
     actual_frame[actual_column]=column;
-    if(actual_column==0)
+    printf("\033[2J\033[1;1H");
+    printf(" ----------------------------------\n");
+    int i;
+    for(i=0;i<16;i++)
     {
-        printf("\033[2J\033[1;1H");
-        printf(" ----------------------------------\n");
-        int i;
-        for(i=0;i<16;i++)
-        {
-            printf("| ");
-            print_bin(get_line(i));
-            printf(" |\n");
-        }
-        printf(" ----------------------------------\n");
+        printf("| ");
+        print_bin(get_line(i));
+        printf(" |\n");
     }
+    printf(" ----------------------------------\n");
 }
 
 void select_column(int num_column)

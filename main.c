@@ -3,35 +3,62 @@
 //#include "framebuffer.h"
 #include "sprite.h"
 
+typedef enum SoftTimer_Direction {
+	Up,
+	Down
+}SoftTimer_Direction;
 
-const Sprite sprt = {
+typedef struct SoftTimer {
+	uint16_t phacc;
+	int16_t phadd;
+}SoftTimer;
+
+void SoftTimer_Init(SoftTimer* st) {
+	st->phacc = 0; st->phadd = 0;
+}
+void SoftTimer_Setphadd(SoftTimer* st, int8_t add) {
+	st->phadd = add;
+}
+void SoftTimer_SetDir(SoftTimer* st, SoftTimer_Direction dir) {
+	if ( dir == Up ) st->phacc = abs(st->phacc);
+	else st->phacc = -abs(st->phacc);
+}
+void SoftTimer_Get8bValue(SoftTimer* st) {
+	return st->phacc >> 8;
+}
+void SoftTimer_Update(SoftTimer* st) {
+	
+	st->phacc += st->phadd;
+}
+
+
+
+
+
+const Sprite uglyeye = {
+9,
 {
-0b0000001100000000,
-0b0001111111100000,
-0b0010000000000000,
-0b0000011111000000,
-0b0000100000100000,
-0b0001000110010000,
-0b0001001111010000,
-0b0001000110010000,
-0b0000100000100000,
-0b0000011111000000,
-},10
+0b0111111100000000,
+0b1000000000000000,
+0b0011111000000000,
+0b0100000100000000,
+0b1000110010000000,
+0b1001111010000000,
+0b1000110010000000,
+0b0100000100000000,
+0b0011111000000000,
+}
 };
 
-int main()
+int main(int argc, char** args)
 {
 	Framebuffer fb;
 	Framebuffer_Init(&fb);
 	
-	//Framebuffer_Draw(&fb);
-
-	while(1)
-	{
-		Sprite_Draw(&fb, &sprt, 0, 0);
-		Framebuffer_Draw_Compatibility(&fb);
-		sleep(0.1);
-	}
-	
-	return 0;
+	int x = -4;
+	int dx = 0;
+	int y = 3; 
+	Sprite_Draw(&fb, &uglyeye, -2, 1);
+	Sprite_Draw(&fb, &uglyeye, 6, 6);
+	Framebuffer_Draw(&fb);
 }

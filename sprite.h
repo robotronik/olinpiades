@@ -7,8 +7,8 @@
 #include "framebuffer.h"
 
 typedef struct {
-	uint16_t pdata[16]; // 16x16 pixel sprite
 	uint8_t height;
+	uint16_t pdata[]; // 16xheight pixel sprite
 }Sprite;
 
 void Sprite_Draw(Framebuffer* fb, Sprite* sp, int x, int y);

@@ -2,7 +2,7 @@
 #include "sprite.h"
 
 void Sprite_Draw(Framebuffer* fb, Sprite* sp, int x, int y) {
-	uint16_t heighttodraw = 16;
+	uint16_t heighttodraw = sp->height;
 	uint16_t firstlinetodraw_onframebuffer = 0;
 	uint16_t firstlinetodraw_fromsprite = 0;
 	
@@ -36,23 +36,11 @@ void Sprite_Draw(Framebuffer* fb, Sprite* sp, int x, int y) {
 		//
 		// clip it
 		firstlinetodraw_onframebuffer += y;
-		heighttodraw -= y;
+		if ( y + heighttodraw > 16 )
+			heighttodraw = 16 - y;
 	}
 	
-	//if ( x > 0 ) {
-		//  ------------- 
-		//  |           |
-		//  |           |
-		//  |           |
-		//  |           |
-		//  -------------
-		//  ------------- 
-		//  |         xxxx
-		//  |         xxxx
-		//  |         xxxx
-		//  |           |
-		//  -------------
-		
+	
 	if ( x > 0) {
 		uint8_t shift = x;
 		for(uint16_t y = 0; y<heighttodraw; y++)

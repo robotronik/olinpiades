@@ -3,71 +3,7 @@
 #include <stdlib.h>
 //#include "framebuffer.h"
 #include "sprite.h"
-
-
-typedef enum Key_Type {
-	Constant,
-	Linear
-}Key_Type;
-
-typedef struct Key {
-	int16_t value;
-	uint16_t duration;
-	Key_Type type;;
-}Key;
-
-typedef struct KeyList {
-	uint16_t size;
-	Key key[];
-}KeyList;
-
-typedef struct KeyAnimation {
-	uint16_t currentkeyindex;
-	uint16_t nextkeyindex;
-	uint16_t durationcounter;
-	KeyList* keylist;
-}KeyAnimation;
-
-void KeyAnimation_Init(KeyAnimation* ka, KeyList* keylist) {
-	ka->currentkeyindex = 0;
-	ka->nextkeyindex = 1;
-	ka->durationcounter = 0;
-	ka->keylist = keylist;
-}
-
-int16_t KeyAnimation_GetCurrentValue(KeyAnimation* ka) {
-	int16_t value;
-	
-	int16_t currentvalue = ka->keylist->key[ka->currentkeyindex].value;
-	Key_Type currenttype = ka->keylist->key[ka->currentkeyindex].type;
-	
-	if ( currenttype == Linear ) {
-		uint16_t currentduration = ka->keylist->key[ka->currentkeyindex].duration;
-		int16_t nextvalue = ka->keylist->key[ka->nextkeyindex].value;
-		value = currentvalue + (ka->durationcounter * (nextvalue - currentvalue)) / currentduration; 
-	}
-	else {
-		value = currentvalue; 
-	}
-	return value;
-}
-
-void KeyAnimation_Update(KeyAnimation* ka) {
-	ka->durationcounter++;
-	if ( ka->durationcounter == ka->keylist->key[ka->currentkeyindex].duration ) {
-		ka->durationcounter = 0;
-		
-		ka->currentkeyindex++;
-		if ( ka->currentkeyindex == ka->keylist->size ) 
-			ka->currentkeyindex = 0;
-			
-		ka->nextkeyindex++;
-		if ( ka->nextkeyindex == ka->keylist->size ) 
-			ka->nextkeyindex = 0;
-	}
-}
-
-
+#include "keyanimation.h"
 
 const Sprite uglyeye = {
 9,
@@ -93,16 +29,55 @@ const Sprite woo = {
 }
 };
 
-int main(int argc, char** args)
+const KeyList test_keylist = {
+3,
 {
+{0,			10,			Linear},
+{10,		10,			Linear},
+{-10,		10,			Constant}
+}
+};
+
+void Test_KeyAnimation(void) {
+	KeyAnimation ka;
+	KeyAnimation_Init(&ka, &test_keylist);
+	int cnt = 0;
+	while ( KeyAnimation_Update(&ka) != AnimationIsOver ) {
+		cnt++;
+		int16_t value = KeyAnimation_GetValue(&ka);
+		printf("value(%d) = %d\n",cnt,value);
+	}
+}
+
+void Test_FramebufferSprite(void) {
 	Framebuffer fb;
 	Framebuffer_Init(&fb);
 	
-	int x = -4;
-	int dx = 0;
-	int y = 3; 
 	Sprite_Draw(&fb, &woo, 1, 1);
 	Sprite_Draw(&fb, &uglyeye, -2, 6);
 	Sprite_Draw(&fb, &uglyeye, 8, 8);
+	
 	Framebuffer_Draw(&fb);
 }
+
+void Test_Text(void) {
+	while(1) {
+	animation();
+	}
+}
+
+int main(void)
+{
+	Test_KeyAnimation();
+}
+
+
+
+
+
+
+
+
+
+
+

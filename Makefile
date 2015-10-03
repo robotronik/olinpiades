@@ -22,6 +22,7 @@ FICHIERS_C =	\
 	text.c 		\
 	framebuffer.c \
 	sprite.c \
+	keyanimation.c \
 
 # Fichier de hardware dépendant de l'architecture
 HARDWARE_C = hardware_$(ARCH).c

@@ -1,7 +1,7 @@
 
 #include "sprite.h"
 
-void Sprite_Draw(Framebuffer* fb, Sprite* sp, int x, int y) {
+void Sprite_Draw(Framebuffer* fb, const Sprite* sp, int x, int y) {
 	uint16_t heighttodraw = sp->height;
 	uint16_t firstlinetodraw_onframebuffer = 0;
 	uint16_t firstlinetodraw_fromsprite = 0;

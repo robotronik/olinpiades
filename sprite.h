@@ -11,6 +11,6 @@ typedef struct {
 	uint16_t pdata[]; // 16xheight pixel sprite
 }Sprite;
 
-void Sprite_Draw(Framebuffer* fb, Sprite* sp, int x, int y);
+void Sprite_Draw(Framebuffer* fb, const Sprite* sp, int x, int y);
 
 #endif

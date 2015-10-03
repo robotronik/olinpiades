@@ -6,7 +6,7 @@ void Framebuffer_Init(Framebuffer* fb) {
 }
 
 // draw call that comply with hardware abstraction
-void Framebuffer_Draw(Framebuffer* fb) {
+void Framebuffer_Draw(const Framebuffer* fb) {
 	#if ARCH == PC
 	Framebuffer_Draw_Compatibility(fb);
 	#else
@@ -18,7 +18,7 @@ void Framebuffer_Draw(Framebuffer* fb) {
 }
 
 // draw call for PC, so that everything drawn isn't rotated by 90°
-void Framebuffer_Draw_Compatibility(Framebuffer* fb) {
+void Framebuffer_Draw_Compatibility(const Framebuffer* fb) {
 	printf("\033[2J\033[1;1H");
 	for(int y=0; y<FB_WIDTH_SHORT; y++) {
 		for(int x=0; x<16; x++) {

@@ -16,8 +16,8 @@ typedef struct {
 }Framebuffer;
 
 void Framebuffer_Init(Framebuffer* fb);
-void Framebuffer_Draw(Framebuffer* fb);
-void Framebuffer_Draw_Compatibility(Framebuffer* fb);
+void Framebuffer_Draw(const Framebuffer* fb);
+void Framebuffer_Draw_Compatibility(const Framebuffer* fb);
 void Framebuffer_Clear(Framebuffer* fb);
 
 #endif

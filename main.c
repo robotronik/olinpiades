@@ -32,13 +32,66 @@ const Sprite woo = {
 const KeyList test_keylist = {
 3,
 {
-{0,			10,			Linear},
-{10,		10,			Linear},
-{-10,		10,			Constant}
+{0,10,Linear},
+{10,10,Linear},
+{-10,10,Constant}
 }
 };
 
-void Test_KeyAnimation(void) {
+const KeyList test_keylist_x = {
+3,
+{
+{-3,10,Linear},
+{5,10,Linear},
+{9,30,Linear}
+}
+};
+
+const KeyList test_keylist_y = {
+3,
+{
+{-2,10,Linear},
+{11,10,Linear},
+{4,30,Linear}
+}
+};
+
+
+const KeyList test_keylist_wave = {
+2,
+{
+{8,10,Linear},
+{11,10,Linear},
+}
+};
+
+void Test_FramebufferSpriteKeyAnimation(void) {
+	// create and init a framebuffer
+	Framebuffer fb;
+	Framebuffer_Init(&fb);
+	
+	// load an xy animation 
+	KeyAnimation ka_x, ka_y, ka_w;
+	KeyAnimation_Init(&ka_x, &test_keylist_x);
+	KeyAnimation_Init(&ka_y, &test_keylist_y);
+	KeyAnimation_Init(&ka_w, &test_keylist_wave);
+	
+	while (1) {
+		usleep(40000);
+		KeyAnimation_Update(&ka_x);
+		KeyAnimation_Update(&ka_y);
+		KeyAnimation_Update(&ka_w);
+		int16_t x = KeyAnimation_GetValue(&ka_x);
+		int16_t y = KeyAnimation_GetValue(&ka_y);
+		int16_t w = KeyAnimation_GetValue(&ka_w);
+		Framebuffer_Clear(&fb);
+		Sprite_Draw(&fb, &uglyeye, x, y);
+		Sprite_Draw(&fb, &woo, 1, w);
+		Framebuffer_Draw(&fb);
+	}
+}
+
+void Test_KeyAnimation_void(void) {
 	KeyAnimation ka;
 	KeyAnimation_Init(&ka, &test_keylist);
 	int cnt = 0;
@@ -62,13 +115,13 @@ void Test_FramebufferSprite(void) {
 
 void Test_Text(void) {
 	while(1) {
-	animation();
+		animation();
 	}
 }
 
 int main(void)
 {
-	Test_KeyAnimation();
+	Test_FramebufferSpriteKeyAnimation();
 }
 
 

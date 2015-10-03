@@ -4,34 +4,6 @@
 //#include "framebuffer.h"
 #include "sprite.h"
 
-typedef enum SoftTimer_Direction {
-	Up,
-	Down
-}SoftTimer_Direction;
-
-typedef struct SoftTimer {
-	uint32_t phacc;
-	int16_t phadd;
-}SoftTimer;
-
-void SoftTimer_Init(SoftTimer* st) {
-	st->phacc = 0; st->phadd = 0;
-}
-void SoftTimer_Setphadd(SoftTimer* st, int8_t add) {
-	st->phadd = add;
-}
-void SoftTimer_SetDir(SoftTimer* st, SoftTimer_Direction dir) {
-	if ( dir == Up ) st->phacc = abs(st->phacc);
-	else st->phacc = -abs(st->phacc);
-}
-uint8_t SoftTimer_Get8bValue(SoftTimer* st) {
-	return st->phacc >> 8;
-}
-void SoftTimer_Update(SoftTimer* st) {
-	
-	st->phacc += st->phadd;
-}
-
 
 typedef enum Key_Type {
 	Constant,
@@ -50,18 +22,49 @@ typedef struct KeyList {
 }KeyList;
 
 typedef struct KeyAnimation {
-	uint16_t currentkey;
-	SoftTimer timer;
+	uint16_t currentkeyindex;
+	uint16_t nextkeyindex;
+	uint16_t durationcounter;
 	KeyList* keylist;
 }KeyAnimation;
 
 void KeyAnimation_Init(KeyAnimation* ka, KeyList* keylist) {
-	ka->currentkey = 0;
+	ka->currentkeyindex = 0;
+	ka->nextkeyindex = 1;
+	ka->durationcounter = 0;
 	ka->keylist = keylist;
-	SoftTimer_Init(&(ka->timer));
+}
+
+int16_t KeyAnimation_GetCurrentValue(KeyAnimation* ka) {
+	int16_t value;
+	
+	int16_t currentvalue = ka->keylist->key[ka->currentkeyindex].value;
+	Key_Type currenttype = ka->keylist->key[ka->currentkeyindex].type;
+	
+	if ( currenttype == Linear ) {
+		uint16_t currentduration = ka->keylist->key[ka->currentkeyindex].duration;
+		int16_t nextvalue = ka->keylist->key[ka->nextkeyindex].value;
+		value = currentvalue + (ka->durationcounter * (nextvalue - currentvalue)) / currentduration; 
+	}
+	else {
+		value = currentvalue; 
+	}
+	return value;
 }
 
 void KeyAnimation_Update(KeyAnimation* ka) {
+	ka->durationcounter++;
+	if ( ka->durationcounter == ka->keylist->key[ka->currentkeyindex].duration ) {
+		ka->durationcounter = 0;
+		
+		ka->currentkeyindex++;
+		if ( ka->currentkeyindex == ka->keylist->size ) 
+			ka->currentkeyindex = 0;
+			
+		ka->nextkeyindex++;
+		if ( ka->nextkeyindex == ka->keylist->size ) 
+			ka->nextkeyindex = 0;
+	}
 }
 
 
@@ -82,7 +85,7 @@ const Sprite uglyeye = {
 };
 
 const Sprite woo = {
-9,
+3,
 {
 0b1000101110111000,
 0b1010101010101000,
@@ -98,7 +101,7 @@ int main(int argc, char** args)
 	int x = -4;
 	int dx = 0;
 	int y = 3; 
-	Sprite_Draw(&fb, &uglyeye, -2, -4);
+	Sprite_Draw(&fb, &woo, 1, 1);
 	Sprite_Draw(&fb, &uglyeye, -2, 6);
 	Sprite_Draw(&fb, &uglyeye, 8, 8);
 	Framebuffer_Draw(&fb);

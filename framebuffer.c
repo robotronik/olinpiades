@@ -23,9 +23,9 @@ void Framebuffer_Draw_Compatibility(const Framebuffer* fb) {
 	for(int y=0; y<FB_WIDTH_SHORT; y++) {
 		for(int x=0; x<16; x++) {
 			if ( fb->data[y] & ( 1 << (15-x) ) )
-				printf("o ");
+				printf("O ");
 			else
-				printf("- ");
+				printf(". ");
 		}
 		printf("\n");
 	}

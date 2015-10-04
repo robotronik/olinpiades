@@ -36,7 +36,7 @@ void Eye_Draw(const Eye* this, Framebuffer* fb) {
 		Sprite_Draw(fb, &eye_normal, 0, 1);
 		break;
 	case(Upset):
-		Sprite_Draw(fb, &eye_upset, 0, 3);
+		Sprite_Draw(fb, &eye_upset, 0, 5);
 		break;
 	case(Happy):
 		Sprite_Draw(fb, &eye_happy, 0, 1);

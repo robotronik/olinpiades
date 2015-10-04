@@ -34,7 +34,7 @@ typedef struct KeyAnimation {
 }KeyAnimation;
 
 void KeyAnimation_Init(KeyAnimation* ka, const KeyList* keylist);
-int16_t KeyAnimation_GetValue(KeyAnimation* ka);
+int16_t KeyAnimation_GetValue(const KeyAnimation* ka);
 KeyAnimation_Return KeyAnimation_Update(KeyAnimation* ka);
 
 #endif

@@ -8,7 +8,7 @@ void KeyAnimation_Init(KeyAnimation* ka, const KeyList* keylist) {
 	ka->keylist = keylist;
 }
 
-int16_t KeyAnimation_GetValue(KeyAnimation* ka) {
+int16_t KeyAnimation_GetValue(const KeyAnimation* ka) {
 	int16_t value;
 	
 	int16_t currentvalue = ka->keylist->key[ka->currentkeyindex].value;

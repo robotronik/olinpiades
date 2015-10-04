@@ -2,8 +2,9 @@
 
 #include <stdlib.h>
 //#include "framebuffer.h"
-#include "sprite.h"
 #include "keyanimation.h"
+
+#include "eye.h"
 
 const Sprite uglyeye = {
 9,
@@ -61,9 +62,99 @@ const KeyList test_keylist_wave = {
 2,
 {
 {8,7,Linear},
-{11,3,Linear},
+{11,3,Linear}
 }
 };
+
+
+const KeyList test_Eye_expression = {
+9,
+{
+{Closed,100,Constant},
+{Normal,800,Constant},
+{Happy,30,Constant},
+{Normal,600,Constant},
+{Upset,300,Constant},
+{Normal,200,Constant},
+{Upset,400,Constant},
+{Normal,700,Constant},
+{Happy,500,Constant},
+}
+};
+
+const KeyList test_Eye_blink = {
+8,
+{
+{Open,40,Constant},
+{Closed,3,Constant},
+{Open,80,Constant},
+{Closed,3,Constant},
+{Open,20,Constant},
+{Closed,3,Constant},
+{Open,100,Constant},
+{Closed,3,Constant},
+}
+};
+
+const KeyList test_Eye_pupil_x = {
+9,
+{
+{5,100,Constant},
+
+{5,2,Linear},
+{8,2,Linear},
+
+{8,100,Constant},
+
+{8,2,Linear},
+{6,2,Linear},
+
+{6,100,Constant},
+
+{6,2,Linear},
+{5,2,Linear},
+}
+};
+const KeyList test_Eye_pupil_y = {
+9,
+{
+{5,200,Constant},
+
+{5,2,Linear},
+{8,2,Linear},
+
+{8,100,Constant},
+
+{8,2,Linear},
+{6,2,Linear},
+
+{6,100,Constant},
+
+{6,2,Linear},
+{5,2,Linear},
+}
+};
+
+void Test_eye(void) {
+	// create and init a framebuffer
+	Framebuffer fb;
+	Framebuffer_Init(&fb);
+	
+	Eye eye;
+	Eye_Init(&eye,	&test_Eye_expression, 
+									&test_Eye_blink, 
+									&test_Eye_pupil_x, 
+									&test_Eye_pupil_y);
+	
+	while (1) {
+		usleep(40000);
+		Eye_Update(&eye);
+		
+		Framebuffer_Clear(&fb);
+		Eye_Draw(&eye, &fb);
+		Framebuffer_Draw(&fb);
+	}
+}
 
 void Test_FramebufferSpriteKeyAnimation(void) {
 	// create and init a framebuffer
@@ -121,7 +212,7 @@ void Test_Text(void) {
 
 int main(void)
 {
-	Test_FramebufferSpriteKeyAnimation();
+	Test_eye();
 }
 
 

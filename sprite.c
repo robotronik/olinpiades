@@ -54,4 +54,36 @@ void Sprite_Draw(Framebuffer* fb, const Sprite* sp, int x, int y) {
 	
 }
 
+void Sprite_DrawWithClipping(Framebuffer* fb, const Framebuffer* fbclip, const Sprite* sp, int x, int y) {
+	uint16_t heighttodraw = sp->height;
+	uint16_t firstlinetodraw_onframebuffer = 0;
+	uint16_t firstlinetodraw_fromsprite = 0;
+	
+	if ( y < -16 || y > 16 || x < -16 || x > 16 ) return;
+	
+	if ( y < 0 ) 
+	{
+		firstlinetodraw_fromsprite += -y; // new beginning
+		heighttodraw -= -y; // new size
+	}
+	else
+	{
+		firstlinetodraw_onframebuffer += y;
+		if ( y + heighttodraw > 16 )
+			heighttodraw = 16 - y;
+	}
+	
+	
+	if ( x > 0) {
+		uint8_t shift = x;
+		for(uint16_t y = 0; y<heighttodraw; y++)
+			fb->data[y + firstlinetodraw_onframebuffer] |= fbclip->data[y + firstlinetodraw_onframebuffer] & (sp->pdata[y + firstlinetodraw_fromsprite] >> shift);
+			}
+	else {
+		uint8_t shift = -x;
+		for(uint16_t y = 0; y<heighttodraw; y++)
+			fb->data[y + firstlinetodraw_onframebuffer] |= fbclip->data[y + firstlinetodraw_onframebuffer] & (sp->pdata[y + firstlinetodraw_fromsprite] << shift);
+	}
+	
+}
 

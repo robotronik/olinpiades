@@ -23,8 +23,8 @@ FICHIERS_C =	\
 	framebuffer.c \
 	sprite.c \
 	keyanimation.c \
-	eye_sprites.c \
-	eye.c \
+	eyedevil_sprites.c \
+	eyedevil.c \
 
 # Fichier de hardware dépendant de l'architecture
 HARDWARE_C = hardware_$(ARCH).c

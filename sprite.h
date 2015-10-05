@@ -12,5 +12,6 @@ typedef struct {
 }Sprite;
 
 void Sprite_Draw(Framebuffer* fb, const Sprite* sp, int x, int y);
+void Sprite_DrawWithClipping(Framebuffer* fb, const Framebuffer* fbclip, const Sprite* sp, int x, int y);
 
 #endif

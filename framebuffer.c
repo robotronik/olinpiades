@@ -6,6 +6,11 @@ void Framebuffer_Init(Framebuffer* fb) {
 }
 
 // draw call that comply with hardware abstraction
+// it doesn't circumvent the fact that the framebuffer model
+// isn't compatible with the scrolling text : one will looks like rotated by
+// 90° ... need some ugly overhead :[
+// or should we render the scrolling text in a framebuffer ?
+// (is that worth it ...)
 void Framebuffer_Draw(const Framebuffer* fb) {
 	#if ARCH == PC
 	Framebuffer_Draw_Compatibility(fb);

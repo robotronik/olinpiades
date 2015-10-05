@@ -11,7 +11,7 @@
 #define FB_HEIGHT_SHORT 	(FB_WIDTH_PIX / 16)
 #define FB_WIDTH_SHORT (FB_HEIGHT_PIX)
 
-typedef struct {
+typedef struct Framebuffer {
 	uint16_t data[FB_WIDTH_SHORT * FB_HEIGHT_SHORT];
 }Framebuffer;
 

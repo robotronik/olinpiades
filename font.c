@@ -1,7 +1,9 @@
+
 #include <stdint.h>
 
-static uint16_t font16_ascii[] = 
-{0b0000000000000000,
+const uint16_t font16_ascii[] = 
+{
+0b0000000000000000,
 0b0000000000000000,
 0b0000000000000000,
 0b0000000000000000,
@@ -1617,7 +1619,3 @@ static uint16_t font16_ascii[] =
 0b0000000000000000
 };
 
-uint16_t * get_font(char caractere)
-{
-	return font16_ascii+(caractere-32)*16;
-}

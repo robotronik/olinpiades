@@ -25,6 +25,9 @@ FICHIERS_C =	\
 	keyanimation.c \
 	eyedevil_sprites.c \
 	eyedevil.c \
+	demo_eyedevil.c \
+	anti_text.c \
+	font.c \
 
 # Fichier de hardware dépendant de l'architecture
 HARDWARE_C = hardware_$(ARCH).c

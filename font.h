@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-uint16_t * get_font(char caractere);
+extern const uint16_t font16_ascii[];
 
 #endif
 

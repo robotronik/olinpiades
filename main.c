@@ -11,10 +11,7 @@ int main(void)
 	Framebuffer fb;
 	Framebuffer_Init(&fb);
 	
-	Text_DrawChar(&fb, 'U', 0, 0);
-	
-	Framebuffer_Draw(&fb);
-	//Demo_EyeDevil(&fb);
+	Demo_EyeDevil(&fb);
 }
 
 

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
-#include <unistd.h>
+//#include <unistd.h>
 #include "font.h"
 #include "affichage.h"
 
@@ -40,7 +40,7 @@ uint16_t get_next_column()
 
 void animation()
 {
-	shift_columns(get_next_column());
-	print_frame();
-	usleep(50000);
+	//shift_columns(get_next_column());
+	//print_frame();
+	//usleep(50000);
 } 

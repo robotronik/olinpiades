@@ -1,6 +1,8 @@
 #ifndef HARDWARE_H
 #define HARDWARE_H
 
+#include <stdint.h>
+
 /*void set_PWM_moteur_D(int PWM);
 void set_PWM_moteur_G(int PWM);
 int get_nbr_tick_D();
@@ -27,5 +29,8 @@ void motors_stop();
 int UART_getc(unsigned char *c);
 
 int arret();
+
+//fonctions à virer
+void write_SPI1(uint16_t value);
 
 #endif

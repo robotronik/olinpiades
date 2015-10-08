@@ -9,6 +9,7 @@
 
 void reset_nbr_tick_G();
 void reset_nbr_tick_D();
+void init_SPI1();
 
 
 #define MAX_SPEED 3999  // Entrée max des PWMs = 2*Période des PWMs
@@ -74,7 +75,7 @@ void init_osc()
 	while (OSCCONbits.OSWEN); 						// Attend le changement
 }
 
-void io_init()
+/*void io_init()
 {
 	// "All port pins are defined as inputs after a Reset"
 
@@ -106,6 +107,28 @@ void io_init()
 	_RB14 = 0;
 	_TRISB15 = 0;	// MOTEUR IN2 left
 	_RB15 = 0;
+}*/
+
+void io_init()
+{
+    _TRISA2 = 0; //LATCH
+    _TRISA3 = 0; //BLANK
+    _RA2 = 0; //latch à 0
+    _RA3 = 1; //blank à 1 : leds éteintes
+
+    _TRISB7 = 0;
+    _TRISB8 = 0;
+    _TRISB9 = 0;
+    _TRISB10 = 0;
+    _TRISB6 = 0;
+    _TRISB11 = 0;
+
+    _RB6 = 0;
+    _RB7 = 0;
+    _RB8 = 0;
+    _RB9 = 0;
+    _RB10 = 0;
+    _RB11 = 1; //disable mux
 }
 
 /** Initialise le module PWM PWM1 **/
@@ -214,15 +237,16 @@ void QEI_init()
 void init_hardware()
 {
 	init_osc();
+    init_SPI1();
 	//__builtin_write_OSCCONL(OSCCON & ~(0x40));	// Débloquage des RPIN et RPOR
-    io_init();
-    PWM1_init();
-    QEI_init();
-    UART_init();
-    timer_init();
+    //io_init();
+    //PWM1_init();
+    //QEI_init();
+    //UART_init();
+    //timer_init();
 	//__builtin_write_OSCCONL(OSCCON | 0x40);		// Rebloquage des RPIN et RPOR
-    reset_nbr_tick_D();
-    reset_nbr_tick_G();
+    //reset_nbr_tick_D();
+    //reset_nbr_tick_G();
 }
 
 void pause_ms(unsigned short n)
@@ -547,4 +571,83 @@ void __attribute__((interrupt, auto_psv)) _U1TXInterrupt()
 int arret()
 {
     return 0;
+}
+
+void init_SPI1()
+{
+    _TRISB2=0;
+    _TRISB3=0;
+    AD1PCFGLbits.PCFG5 = 1; // Désactivation de l'entrée analogique !!!
+    RPOR1bits.RP2R = 0b01000; //RP2 (=RB2) sur CLK SPI1
+    RPOR1bits.RP3R = 0b00111; //RP3 (=RB3) sur SPI1 OUT
+
+    SPI1CON1bits.MODE16=1; //mots de 16bits sur le SPI
+    SPI1CON1bits.MSTEN=1; //on se met en mode master
+
+    SPI1STATbits.SPIEN=1; //enable SPI1
+    SPI1STATbits.SPIROV=0;
+}
+
+void write_SPI1(uint16_t value)
+{
+    SPI1BUF = value;
+    SPI1STATbits.SPIROV=0;
+}
+
+void leds_on()
+{
+    _RA3=0;
+}
+
+void leds_off()
+{
+    _RA3=1;
+}
+
+void latch_pulse_driver()
+{
+    _RA2=1;
+    int i;
+    //moche
+    for(i=0;i<100;i++)
+    {
+        Nop();
+    }
+    _RA2=0;
+}
+
+void print_column(uint16_t column)
+{
+    //leds_off();
+    write_SPI1(column);
+    latch_pulse_driver();
+}
+
+latch_pulse_mux()
+{
+    _RB6=1;
+    int i;
+    //moche
+    for(i=0;i<100;i++)
+    {
+        Nop();
+    }
+    _RB6=0;
+}
+
+void select_column(int num_column)
+{
+    //disable mux
+    _RB11=1;
+
+    //faire autrement en temps de "non rush"
+    _RB7 = num_column&&1;
+    _RB8 = (num_column>>1)&&1;
+    _RB9 = (num_column>>2)&&1;
+    _RB10 = (num_column>>3)&&1;
+
+    latch_pulse_mux();
+
+    //enable mux
+    _RB11=0;
 }

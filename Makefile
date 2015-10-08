@@ -19,7 +19,6 @@ include $(PARENT_DIR)/hardware/common.mk
 FICHIERS_C =	\
 	main.c		\
 	affichage.c \
-	text.c 		\
 	framebuffer.c \
 	sprite.c \
 	keyanimation.c \

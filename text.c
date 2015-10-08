@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
-#include <unistd.h>
+//#include <unistd.h>
 #include "font.h"
 #include "affichage.h"
 
@@ -44,3 +44,4 @@ void animation()
 	print_frame();
 	usleep(50000);
 } 
+

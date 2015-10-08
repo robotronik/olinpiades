@@ -25,6 +25,7 @@ FICHIERS_C =	\
 	eyedevil_sprites.c \
 	eyedevil.c \
 	demo_eyedevil.c \
+	framebuffer_effects.c \
 
 # Fichier de hardware dépendant de l'architecture
 HARDWARE_C = hardware_$(ARCH).c

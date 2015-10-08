@@ -1,6 +1,8 @@
 
-//#include "demo.h"
 #include "eyedevil.h"
+#include "eyedevil_sprites.h"
+#include "framebuffer_effects.h"
+#include "sprite.h"
 
 // describes an animation
 const KeyList test_Eye_expression = {
@@ -63,19 +65,46 @@ const KeyList test_Eye_pupil_y = {
 }
 };
 
+
+typedef enum Eye_Effect_Flash {
+	NoFlash,
+	Flash
+}Eye_Effect_Flash;
+
+const KeyList Demo_Eye_flash = {
+5, // <-- ... !
+{
+// long, usual
+{NoFlash,10,Constant},
+// and then bam bam ... :]
+{Flash,10,Constant},
+{NoFlash,10,Constant},
+{Flash,10,Constant},
+{NoFlash,10,Constant}
+}
+};
+
 void Demo_EyeDevil(Framebuffer* fb) {	
 	// create a devil eye, with the animations up here 
 	Eye eye;
 	Eye_Init(&eye, &test_Eye_expression, &test_Eye_pupil_x, &test_Eye_pupil_y);
+	
+	KeyAnimation ka_flash;
+	KeyAnimation_Init(&ka_flash, &Demo_Eye_flash);
 	
 	while (1) {
 		usleep(40000); // wait some time between animated frames
 		Eye_Update(&eye); // switch to the next next animation frame of the eye
 		
 		Framebuffer_Clear(fb); // clear image buffer
+		
+
 		Eye_Draw(&eye, fb); // draw the eye
+
 		Framebuffer_Draw(fb); // display it. (ideally in an interrput)
 	}
 }
+
+
 
 

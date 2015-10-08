@@ -258,6 +258,13 @@ void pause_ms(unsigned short n)
         for(i=0; i<4000; i++)
             Nop();
 }
+void pause_us(unsigned short n)
+{
+    unsigned short i,j;
+    for(j=0; j<n; j++)
+        for(i=0; i<4; i++)
+            Nop();
+}
 
 /*----------------------------------------------------------------*
  * génération des PWMs de commande des moteurs                    *
@@ -640,7 +647,7 @@ latch_pulse_mux()
 void select_column(uint16_t num_column)
 {
     num_column-=1;
-    
+
     //disable mux
     _RB11=1;
 
@@ -654,4 +661,12 @@ void select_column(uint16_t num_column)
 
     //enable mux
     _RB11=0;
-} 
+}
+
+void write_column(int num_column, uint16_t column_value)
+{
+    leds_off();
+    print_column(column_value);
+    select_column(num_column);
+    leds_on();
+}

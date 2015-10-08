@@ -12,6 +12,7 @@ int doit_attendre();*/
 ////////////////////////////////
 void print_column(uint16_t column);
 void select_column(uint16_t num_column);
+void write_column(int num_column, uint16_t column_value);
 ////////////////////////////////
 
 void init_hardware();
@@ -23,14 +24,12 @@ void attente_synchro();
 
 void allumer_del();
 void pause_ms(unsigned short n);
+void pause_us(unsigned short n);
 void eteindre_del();
 void motors_stop();
 
 int UART_getc(unsigned char *c);
 
 int arret();
-
-//fonctions à virer
-void write_SPI1(uint16_t value);
 
 #endif

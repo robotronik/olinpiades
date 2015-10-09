@@ -1,6 +1,7 @@
 /*//ici la couche d'abstraction du microcontroleur utilisé
 //on fait ceci afin de rendre le code portable*/
 
+
 #include "hardware.h"
 #include <p33FJ128MC802.h>
 
@@ -58,6 +59,7 @@ void eteindre_del()
 _FOSCSEL(FNOSC_FRCPLL & IESO_ON)
 _FOSC(FCKSM_CSECMD & IOL1WAY_ON & OSCIOFNC_ON & POSCMD_NONE)
 _FWDT(FWDTEN_OFF & WINDIS_OFF & WDTPRE_PR128 & WDTPOST_PS32768)
+_FICD(JTAGEN_OFF)
 
 void init_osc()
 {
@@ -239,7 +241,7 @@ void init_hardware()
 	init_osc();
     init_SPI1();
 	//__builtin_write_OSCCONL(OSCCON & ~(0x40));	// Débloquage des RPIN et RPOR
-    //io_init();
+    io_init();
     //PWM1_init();
     //QEI_init();
     //UART_init();
@@ -254,6 +256,13 @@ void pause_ms(unsigned short n)
     unsigned short i,j;
     for(j=0; j<n; j++)
         for(i=0; i<4000; i++)
+            Nop();
+}
+void pause_us(unsigned short n)
+{
+    unsigned short i,j;
+    for(j=0; j<n; j++)
+        for(i=0; i<4; i++)
             Nop();
 }
 
@@ -635,19 +644,29 @@ latch_pulse_mux()
     _RB6=0;
 }
 
-void select_column(int num_column)
+void select_column(uint16_t num_column)
 {
+    num_column-=1;
+
     //disable mux
     _RB11=1;
 
     //faire autrement en temps de "non rush"
-    _RB7 = num_column&&1;
-    _RB8 = (num_column>>1)&&1;
-    _RB9 = (num_column>>2)&&1;
-    _RB10 = (num_column>>3)&&1;
+    _RB7 = num_column&0x1;
+    _RB8 = (num_column>>1)&0x1;
+    _RB9 = (num_column>>2)&0x1;
+    _RB10 = (num_column>>3)&0x1;
 
     latch_pulse_mux();
 
     //enable mux
     _RB11=0;
+}
+
+void write_column(int num_column, uint16_t column_value)
+{
+    leds_off();
+    print_column(column_value);
+    select_column(num_column);
+    leds_on();
 }

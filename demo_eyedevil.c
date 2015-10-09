@@ -72,7 +72,7 @@ void Demo_EyeDevil(Framebuffer* fb) {
 	
 	
 	while (1) {
-		usleep(40000); // wait some time between animated frames
+		pause_us(40000); // wait some time between animated frames
 		Eye_Update(&eye); // switch to the next next animation frame of the eye
 		
 		Framebuffer_Clear(fb); // clear image buffer

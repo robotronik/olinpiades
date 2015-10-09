@@ -19,7 +19,7 @@ int main(void)
 	{
 	for(int y=1; y<=16; y++) {
 		write_column(y, 0b1<<(y-1));
-		pause_us(2200);
+		pause_us(3200);
 	}
 }/*
 	Framebuffer fb;

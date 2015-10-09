@@ -597,6 +597,7 @@ void init_SPI1()
     SPI1CON1bits.CKP=1;
 
     SPI1CON1bits.PPRE=0b11;
+    SPI1CON1bits.SPRE=0b110;
 
     SPI1STATbits.SPIEN=1; //enable SPI1
     SPI1STATbits.SPIROV=0;
@@ -635,8 +636,8 @@ void print_column(uint16_t column)
 {
     //leds_off();
     write_SPI1(column);
-    pause_us(220);
-    //while(SPI1STATbits.SPITBF);
+    //pause_us(220);
+    while(SPI1STATbits.SPITBF);
     latch_pulse_driver();
 }
 
@@ -676,10 +677,10 @@ void write_column(uint16_t num_column, uint16_t column_value)
     //pause_us(100);
     leds_off();
     _RB11=1; //disable mux
-    //pause_us(50);
-    select_column(num_column);
+    pause_us(50);
     print_column(column_value);
-    //pause_us(150);
+    select_column(num_column);
+    pause_us(150);
     _RB11=0; //enable mux
     pause_us(150);
     leds_on();

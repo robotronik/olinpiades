@@ -1,6 +1,8 @@
 
 #include "eyedevil.h"
 
+#define FLIP
+
 void Eye_Init(Eye* this,	const KeyList* keyListEyeState,  
 													const KeyList* keyListPupil_x, 
 													const KeyList* keyListPupil_y) {
@@ -26,10 +28,10 @@ void Eye_Draw(const Eye* this, Framebuffer* fb) {
 	
 	// else, draw the eye expression
 	// choose sprite/clipping pair 
-	const Sprite* eye_sprite = 0;
-	const Framebuffer* eye_clip = 0;
 	
 	#ifndef FLIP
+	const Sprite* eye_sprite = &eye_0;
+	const Framebuffer* eye_clip = &eye_0_clip;
 	switch(eyestate) {
 	case(Closed):
 		eye_sprite = &eye_0;
@@ -49,6 +51,8 @@ void Eye_Draw(const Eye* this, Framebuffer* fb) {
 		break;
 	}
 	#else
+	const Sprite* eye_sprite = &eye_0_m;
+	const Framebuffer* eye_clip = &eye_0_clip_m;
 	switch(eyestate) {
 	case(Closed):
 		eye_sprite = &eye_0_m;

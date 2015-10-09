@@ -16,9 +16,8 @@ void Framebuffer_Draw(const Framebuffer* fb) {
 	#if ARCH == PC
 	Framebuffer_Draw_Compatibility(fb);
 	#else
-	for(int y=0; y<FB_WIDTH_SHORT; y++) {
-		write_column(y, fb->data[y]);
-		pause_us(1200);
+	for(int y=0; y<16; y++) {
+		write_column(y+1, fb->data[y]);//fb->data[y]);
 	}
 	#endif
 }
@@ -39,7 +38,7 @@ void Framebuffer_Draw_Compatibility(const Framebuffer* fb) {
 }
 
 void Framebuffer_Clear(Framebuffer* fb) {
-		for(int y=0; y<FB_WIDTH_SHORT; y++) 
+		for(int y=0; y<16; y++) 
 			fb->data[y] = 0;
 }
 

@@ -609,12 +609,12 @@ void write_SPI1(uint16_t value)
     SPI1STATbits.SPIROV=0;
 }
 
-void leds_on()
+void driver_on()
 {
     _RA3=0;
 }
 
-void leds_off()
+void driver_off()
 {
     _RA3=1;
     //pause_us(50);
@@ -636,7 +636,7 @@ void print_column(uint16_t column)
 {
     //leds_off();
     write_SPI1(column);
-    //pause_us(220);
+    //pause_us(1);
     while(SPI1STATbits.SPITBF);
     latch_pulse_driver();
 }
@@ -655,9 +655,6 @@ latch_pulse_mux()
 
 void select_column(uint16_t num_column)
 {
-    num_column-=1;
-
-
 
     //faire autrement en temps de "non rush"
     _RB7 = num_column&0x1;
@@ -672,16 +669,18 @@ void select_column(uint16_t num_column)
 
 void write_column(uint16_t num_column, uint16_t column_value)
 {
-    //leds_off();
+    _RB11=0; //enable mux
+    //driver_off();
     //print_column(0);
     //pause_us(100);
-    leds_off();
-    _RB11=1; //disable mux
-    pause_us(50);
+    driver_off();
+    //_RB11=1; //disable mux
+    //pause_us(50);
     print_column(column_value);
     select_column(num_column);
-    pause_us(150);
-    _RB11=0; //enable mux
-    pause_us(150);
-    leds_on();
+    pause_us(550);
+    //_RB11=0; //enable mux
+    //pause_us(250);
+    driver_on();
+    pause_us(1000);
 }

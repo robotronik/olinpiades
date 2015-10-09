@@ -596,6 +596,8 @@ void init_SPI1()
     SPI1CON1bits.CKE=0; //Serial output data changes on transition from active clock state to Idle clock state
     SPI1CON1bits.CKP=1;
 
+    SPI1CON1bits.PPRE=0b11;
+
     SPI1STATbits.SPIEN=1; //enable SPI1
     SPI1STATbits.SPIROV=0;
 }

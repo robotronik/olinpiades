@@ -8,8 +8,17 @@ export DEBUG ?= _WARNING_
 
 PARENT_DIR = ../
 
+
+FLIP = no
+
+EXESUFFIX = left
+ifeq ($(FLIP), yes)
+	CFLAGS+=-DFLIP
+	EXESUFFIX = right
+endif
+
 # Constantes de compilation
-EXEC    = yeux_char
+EXEC    = yeux_char_$(EXESUFFIX)
 PIC_ELF = $(EXEC).elf
 PIC_HEX = $(EXEC).hex
 include $(PARENT_DIR)/hardware/common.mk
@@ -25,7 +34,6 @@ FICHIERS_C =	\
 	eyedevil_sprites.c \
 	eyedevil.c \
 	demo_eyedevil.c \
-	framebuffer_effects.c \
 
 # Fichier de hardware dépendant de l'architecture
 HARDWARE_C = hardware_$(ARCH).c

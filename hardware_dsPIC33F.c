@@ -663,7 +663,7 @@ void select_column(uint16_t num_column)
     _RB11=0;
 }
 
-void write_column(int num_column, uint16_t column_value)
+void write_column(uint16_t num_column, uint16_t column_value)
 {
     leds_off();
     print_column(column_value);

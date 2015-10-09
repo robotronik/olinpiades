@@ -16,8 +16,7 @@ void Framebuffer_Draw(const Framebuffer* fb) {
 	Framebuffer_Draw_Compatibility(fb);
 	#else
 	for(int y=0; y<FB_WIDTH_SHORT; y++) {
-		select_column(y);
-		print_column(fb->data[y]);
+		write_column(y, fb->data[y]);
 	}
 	#endif
 }
@@ -41,3 +40,10 @@ void Framebuffer_Clear(Framebuffer* fb) {
 		for(int y=0; y<FB_WIDTH_SHORT; y++) 
 			fb->data[y] = 0;
 }
+
+
+
+
+
+
+

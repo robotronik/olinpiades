@@ -12,7 +12,7 @@ int doit_attendre();*/
 ////////////////////////////////
 void print_column(uint16_t column);
 void select_column(uint16_t num_column);
-void write_column(int num_column, uint16_t column_value);
+void write_column(uint16_t num_column, uint16_t column_value);
 ////////////////////////////////
 
 void init_hardware();

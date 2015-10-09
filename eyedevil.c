@@ -1,7 +1,6 @@
 
 #include "eyedevil.h"
 
-
 void Eye_Init(Eye* this,	const KeyList* keyListEyeState,  
 													const KeyList* keyListPupil_x, 
 													const KeyList* keyListPupil_y) {
@@ -29,6 +28,8 @@ void Eye_Draw(const Eye* this, Framebuffer* fb) {
 	// choose sprite/clipping pair 
 	const Sprite* eye_sprite = 0;
 	const Framebuffer* eye_clip = 0;
+	
+	#ifndef FLIP
 	switch(eyestate) {
 	case(Closed):
 		eye_sprite = &eye_0;
@@ -47,6 +48,26 @@ void Eye_Draw(const Eye* this, Framebuffer* fb) {
 		eye_clip = &eye_3_clip;
 		break;
 	}
+	#else
+	switch(eyestate) {
+	case(Closed):
+		eye_sprite = &eye_0_m;
+		eye_clip = &eye_0_clip_m;
+		break;
+	case(HalfClosed):
+		eye_sprite = &eye_1_m;
+		eye_clip = &eye_1_clip_m;
+		break;
+	case(HalfOpen):
+		eye_sprite = &eye_2_m;
+		eye_clip = &eye_2_clip_m;
+		break;
+	case(Open):
+		eye_sprite = &eye_3_m;
+		eye_clip = &eye_3_clip_m;
+		break;
+	}
+	#endif
 	
 	Sprite_Draw(fb, eye_sprite, 0, 0);
 	Sprite_DrawWithClipping(fb, eye_clip, &eye_pupil, x, y);

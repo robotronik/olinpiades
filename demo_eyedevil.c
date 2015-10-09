@@ -65,12 +65,6 @@ const KeyList test_Eye_pupil_y = {
 };
 
 
-typedef enum Eye_Effect_Flash {
-	NoFlash,
-	Flash
-}Eye_Effect_Flash;
-
-
 void Demo_EyeDevil(Framebuffer* fb) {	
 	// create a devil eye, with the animations up here 
 	Eye eye;
@@ -82,7 +76,6 @@ void Demo_EyeDevil(Framebuffer* fb) {
 		Eye_Update(&eye); // switch to the next next animation frame of the eye
 		
 		Framebuffer_Clear(fb); // clear image buffer
-		
 
 		Eye_Draw(&eye, fb); // draw the eye
 

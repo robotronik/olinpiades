@@ -20,4 +20,6 @@ void Framebuffer_Draw(const Framebuffer* fb);
 void Framebuffer_Draw_Compatibility(const Framebuffer* fb);
 void Framebuffer_Clear(Framebuffer* fb);
 
+void Framebuffer_MirrorY(uint16_t* data);
+
 #endif

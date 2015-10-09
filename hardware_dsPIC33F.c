@@ -593,6 +593,9 @@ void init_SPI1()
     SPI1CON1bits.MODE16=1; //mots de 16bits sur le SPI
     SPI1CON1bits.MSTEN=1; //on se met en mode master
 
+    SPI1CON1bits.CKE=0; //Serial output data changes on transition from active clock state to Idle clock state
+    SPI1CON1bits.CKP=1;
+
     SPI1STATbits.SPIEN=1; //enable SPI1
     SPI1STATbits.SPIROV=0;
 }
@@ -611,6 +614,7 @@ void leds_on()
 void leds_off()
 {
     _RA3=1;
+    //pause_us(50);
 }
 
 void latch_pulse_driver()
@@ -629,6 +633,8 @@ void print_column(uint16_t column)
 {
     //leds_off();
     write_SPI1(column);
+    pause_us(220);
+    //while(SPI1STATbits.SPITBF);
     latch_pulse_driver();
 }
 
@@ -648,8 +654,7 @@ void select_column(uint16_t num_column)
 {
     num_column-=1;
 
-    //disable mux
-    _RB11=1;
+
 
     //faire autrement en temps de "non rush"
     _RB7 = num_column&0x1;
@@ -659,14 +664,21 @@ void select_column(uint16_t num_column)
 
     latch_pulse_mux();
 
-    //enable mux
-    _RB11=0;
+
 }
 
 void write_column(uint16_t num_column, uint16_t column_value)
 {
+    //leds_off();
+    //print_column(0);
+    //pause_us(100);
     leds_off();
-    print_column(column_value);
+    _RB11=1; //disable mux
+    //pause_us(50);
     select_column(num_column);
+    print_column(column_value);
+    //pause_us(150);
+    _RB11=0; //enable mux
+    pause_us(150);
     leds_on();
 }

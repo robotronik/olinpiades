@@ -70,8 +70,7 @@ void Demo_EyeDevil(Framebuffer* fb) {
 	Eye eye;
 	Eye_Init(&eye, &test_Eye_expression, &test_Eye_pupil_x, &test_Eye_pupil_y);
 	
-	
-	while (1) {
+	//while (1) {
 		pause_us(40000); // wait some time between animated frames
 		Eye_Update(&eye); // switch to the next next animation frame of the eye
 		
@@ -79,8 +78,8 @@ void Demo_EyeDevil(Framebuffer* fb) {
 
 		Eye_Draw(&eye, fb); // draw the eye
 
-		Framebuffer_Draw(fb); // display it. (ideally in an interrput)
-	}
+		//Framebuffer_Draw(fb); // display it. (ideally in an interrput)
+	//}
 }
 
 

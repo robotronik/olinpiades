@@ -18,7 +18,7 @@ void Framebuffer_Draw(const Framebuffer* fb) {
 	#else
 	for(int y=0; y<FB_WIDTH_SHORT; y++) {
 		write_column(y, fb->data[y]);
-		pause_us(1500);
+		pause_us(1200);
 	}
 	#endif
 }

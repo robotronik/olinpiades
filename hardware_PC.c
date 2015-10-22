@@ -25,9 +25,10 @@ uint16_t get_line(int line_num)
     return line_value;
 }
 
-void print_column(uint16_t column)
+
+void write_column(uint16_t num_column, uint16_t column)
 {
-    actual_frame[actual_column]=column;
+    actual_frame[num_column]=column;
     printf("\033[2J\033[1;1H");
     printf(" ----------------------------------\n");
     int i;
@@ -38,9 +39,15 @@ void print_column(uint16_t column)
         printf(" |\n");
     }
     printf(" ----------------------------------\n");
+    usleep(2000);
 }
 
 void select_column(int num_column)
 {
     actual_column=num_column;
+}
+
+void init_hardware()
+{
+
 }

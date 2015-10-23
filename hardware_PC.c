@@ -32,10 +32,9 @@ void write_column(uint16_t num_column, uint16_t column)
     printf("\033[2J\033[1;1H");
     printf(" ----------------------------------\n");
     int i;
-    for(i=0;i<16;i++)
-    {
+    for(i=0;i<16;i++) {
         printf("| ");
-        print_bin(get_line(i));
+        print_bin(actual_frame[i]);
         printf(" |\n");
     }
     printf(" ----------------------------------\n");

@@ -20,7 +20,7 @@ endif
 # Constantes de compilation
 EXEC    = yeux_char_$(EXESUFFIX)
 
-include $(PARENT_DIR)/hardware/common.mk
+include $(PARENT_DIR)/hardware/common.rules
 ################################################################################
 # Fichiers du projet
 

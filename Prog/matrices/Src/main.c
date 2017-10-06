@@ -42,8 +42,8 @@
 /* USER CODE BEGIN Includes */
 #include "udelay.h"
 
-#define nbrframes 15
-#define boucleframe 10
+#define nbrframes 112
+#define boucleframe 40
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -110,13 +110,15 @@ int main(void)
   /* USER CODE END WHILE */
     data[0]=f;
     HAL_UART_Transmit_IT(&huart2,data,1);
-    mise_un_oeil(frames);
+    //mise_un_oeil(frames);
     /*mise_zero_oeil(frames);
     quart_cercle(frames);
     symetrie_centrale_4(frames);
     iris_cercle(frames,((f<nbrframes)?f:(2*nbrframes-f))+8,((f<nbrframes)?f:(2*nbrframes-f))+8,2);*/
 
-    //oeil_complet(frames, ((f<nbrframes)?f:(2*nbrframes-f))+8, 1);
+    //oeil_complet(frames, ((f<nbrframes)?f:(2*nbrframes-f))+8, 3);
+    //crane_complet(frames,2);
+    animation(frames,f);
 
       for(k=0;k<boucleframe;k++)
       {
@@ -138,7 +140,7 @@ int main(void)
           for(j=0;j<32;j++)
           {
             HAL_GPIO_WritePin(CLK_COL_GPIO_Port,CLK_COL_Pin,0);
-            HAL_GPIO_WritePin(SERIAL_IN_GPIO_Port,SERIAL_IN_Pin,frames[i][j]);
+            HAL_GPIO_WritePin(SERIAL_IN_GPIO_Port,SERIAL_IN_Pin,frames[i][31-j]);
             HAL_GPIO_WritePin(CLK_COL_GPIO_Port,CLK_COL_Pin,1);
           }
           HAL_GPIO_WritePin(LATCH_COL_GPIO_Port,LATCH_COL_Pin,1);
@@ -152,7 +154,7 @@ int main(void)
       }
     /* USER CODE BEGIN 3 */
       f++;
-      if(f==2*nbrframes) f=0;
+      if(f==nbrframes) f=0;
     /* USER CODE END 3 */
 
     }

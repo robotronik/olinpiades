@@ -33,7 +33,7 @@ comp:
 
 flash:
 	@echo "${rouge}+---------------------[ Transfert ]---------------------+ ${fin}"
-	openocd -f openocd/st_nucleo_f303k8.cfg -c "program /home/maxime/Bureau/mat/matrices/build/matrix.bin exit 0x08000000 reset"
+	openocd -f openocd/st_nucleo_f303k8.cfg -c "program /home/maxime/Bureau/Prog/matrices/build/matrix.bin exit 0x08000000 reset"
 	@echo "${rouge}+----------------[ Transfert terminé ]------------------+ ${fin}"
 
 debug:

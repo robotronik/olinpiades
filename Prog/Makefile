@@ -1,4 +1,5 @@
 BOARD= f4
+PROJECT_DIR= matrices
 PROJECT_NAME= matrix
 
 rouge = \033[0;31m
@@ -25,7 +26,7 @@ cf:
 
 comp:
 	@echo "${rouge}+--------------------[ Compilation ]--------------------+ ${fin}"
-	cd matrices ;\
+	cd $(PROJECT_DIR) ;\
 	make all
 	cd $(ori);\
 
@@ -33,19 +34,19 @@ comp:
 
 flash:
 	@echo "${rouge}+---------------------[ Transfert ]---------------------+ ${fin}"
-	openocd -f openocd/$(BOARD).cfg -c "program matrices/build/$(PROJECT_NAME).bin exit 0x08000000 reset"
+	openocd -f openocd/$(BOARD).cfg -c "program $(PROJECT_DIR)/build/$(PROJECT_NAME).bin exit 0x08000000 reset"
 	@echo "${rouge}+----------------[ Transfert terminé ]------------------+ ${fin}"
 
 debug:
 	@echo "${rouge}+-----------------------[ Debug ]-----------------------+ ${fin}"
-	arm-none-eabi-gdb $(PROJECT_NAME)/build/matrix.elf --command=openocd/attach.gdb
+	arm-none-eabi-gdb $(PROJECT_DIR)/build/$(PROJECT_NAME).elf --command=openocd/attach_$(BOARD).gdb
 	@echo "${rouge}+-------------------[ Debug terminé ]-------------------+ ${fin}"
 
 doc:
 	xreader /home/maxime/Documents/docHAL/docHAL-$(BOARD).pdf &
 
 clean:
-	cd matrices ;\
+	cd $(PROJECT_DIR) ;\
 	make clean
 	cd $(ori);\
 	rm -f openocd/openocd.log

@@ -1,6 +1,6 @@
-BOARD= nucleo_f303k8
+BOARD= f4
+PROJECT_NAME= matrix
 
-# Couleur script shell à utiliser avec ${rouge}Bonjour${fin} et un @echo -e
 rouge = \033[0;31m
 vert = \033[0;32m
 bleu = \033[0;34m
@@ -33,19 +33,16 @@ comp:
 
 flash:
 	@echo "${rouge}+---------------------[ Transfert ]---------------------+ ${fin}"
-	openocd -f openocd/st_nucleo_f303k8.cfg -c "program /home/maxime/Bureau/Prog/matrices/build/matrix.bin exit 0x08000000 reset"
+	openocd -f openocd/$(BOARD).cfg -c "program matrices/build/$(PROJECT_NAME).bin exit 0x08000000 reset"
 	@echo "${rouge}+----------------[ Transfert terminé ]------------------+ ${fin}"
 
 debug:
 	@echo "${rouge}+-----------------------[ Debug ]-----------------------+ ${fin}"
-	arm-none-eabi-gdb /home/maxime/Bureau/mat/matrices/build/matrix.elf --command=openocd/attach.gdb
+	arm-none-eabi-gdb $(PROJECT_NAME)/build/matrix.elf --command=openocd/attach.gdb
 	@echo "${rouge}+-------------------[ Debug terminé ]-------------------+ ${fin}"
 
 doc:
-	xreader /home/maxime/Bureau/Robotique/docHAL-F4.pdf& #à adapter en fonction de la machine
-
-new:
-	mkdir lib src
+	xreader /home/maxime/Documents/docHAL/docHAL-$(BOARD).pdf &
 
 clean:
 	cd matrices ;\

@@ -17,7 +17,8 @@ BOARD = st_nucleo_f3
 ###############################################################################
 # Binaries
 
-PREFIX = arm-none-eabi-
+# PREFIX = arm-none-eabi-
+PREFIX =
 CC = $(PREFIX)gcc
 AS = $(PREFIX)gcc -x assembler-with-cpp
 CP = $(PREFIX)objcopy
@@ -30,7 +31,7 @@ BIN = $(CP) -O binary -S
 # CFLAGS
 CFLAGS =
 
-MCU = -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard
+# MCU = -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard
 
 CFLAGS += $(MCU)
 
@@ -40,6 +41,7 @@ CFLAGS += -DUSE_HAL_DRIVER -DSTM32F303x8
 
 # C includes
 CFLAGS +=  \
+	-Isrc \
 	-IDrivers/CMSIS/Device/ST/STM32F3xx/Include \
 	-IDrivers/CMSIS/Include \
 	-IDrivers/STM32F3xx_HAL_Driver/Inc \
@@ -72,7 +74,7 @@ LDFLAGS += -lc -lm -lnosys
 ###############################################################################
 # source
 
-HAL_Sources =
+HAL_Sources = \
 	Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_cortex.c \
 	Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c \
 	Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash_ex.c \
@@ -90,7 +92,7 @@ HAL_Sources =
 	Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart.c \
 	Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal.c \
 
-Sources = $(HAL_Sources) \
+C_SOURCES = $(HAL_Sources) \
 	src/blink.c \
 	src/main_hal.c \
 	src/main.c \
@@ -98,7 +100,7 @@ Sources = $(HAL_Sources) \
 	src/stm32f3xx_it.c \
 	src/system_stm32f3xx.c \
 	src/udelay.c\
-	src/write_matrice.c
+	src/write_matrix.c
 
 # ASM sources
 ASM_SOURCES =  \

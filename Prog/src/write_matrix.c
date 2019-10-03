@@ -1,11 +1,10 @@
-#include "write_matrice.h"
+#include "write_matrix.h"
+#include "main.h"
+#include "udelay.h"
 
 #include "stm32f3xx_hal.h"
 
-#include "main.h"
-
 #define boucleframe 40
-
 
 void write_matrix_once(uint8_t matrix[GF][GF]) {
   for(int i = 0; i < 32; i++) {
@@ -25,7 +24,7 @@ void write_matrix_once(uint8_t matrix[GF][GF]) {
     HAL_GPIO_WritePin(LATCH_COL_GPIO_Port, LATCH_COL_Pin, 0);
     for(int j = 0; j < 32; j++) {
       HAL_GPIO_WritePin(CLK_COL_GPIO_Port, CLK_COL_Pin, 0);
-      HAL_GPIO_WritePin(SERIAL_IN_GPIO_Port, SERIAL_IN_Pin, frame[i][31-j]);
+      HAL_GPIO_WritePin(SERIAL_IN_GPIO_Port, SERIAL_IN_Pin, matrix[i][31-j]);
       HAL_GPIO_WritePin(CLK_COL_GPIO_Port, CLK_COL_Pin, 1);
     }
     HAL_GPIO_WritePin(LATCH_COL_GPIO_Port, LATCH_COL_Pin, 1);

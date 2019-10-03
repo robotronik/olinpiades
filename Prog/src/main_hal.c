@@ -1,5 +1,8 @@
+#include "stm32f3xx_hal.h"
 
+#include "main_hal.h"
 
+UART_HandleTypeDef huart2;
 
 void _Error_Handler(char * file, int line)
 {
@@ -118,4 +121,8 @@ void MX_USART2_UART_Init(void) {
     _Error_Handler(__FILE__, __LINE__);
   }
 
+}
+
+void uart_transmit_char(unsigned char c) {
+  HAL_UART_Transmit_IT(&huart2, &c, 1);
 }

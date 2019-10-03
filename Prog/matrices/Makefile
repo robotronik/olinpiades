@@ -48,28 +48,30 @@ BUILD_DIR = build
 ######################################
 # C sources
 C_SOURCES =  \
-Src/udelay.c\
-Src/system_stm32f3xx.c \
-Src/blink.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr_ex.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc.c \
 Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_cortex.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart.c \
-Src/main.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c \
-Src/stm32f3xx_hal_msp.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim_ex.c \
+Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c \
 Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash_ex.c \
+Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash.c \
+Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c \
+Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c \
+Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c.c \
+Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr_ex.c \
+Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr.c \
 Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc_ex.c \
+Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc.c \
+Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim_ex.c \
+Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim.c \
+Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c \
+Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart.c \
 Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal.c \
+Src/blink.c \
+Src/main_hal.c \
+Src/main.c \
+Src/stm32f3xx_hal_msp.c \
 Src/stm32f3xx_it.c \
-Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim.c
+Src/system_stm32f3xx.c \
+Src/udelay.c\
+Src/write_matrice.c \
 
 # ASM sources
 ASM_SOURCES =  \

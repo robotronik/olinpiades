@@ -35,7 +35,7 @@ CFLAGS =
 
 CFLAGS += $(MCU)
 
-CFLAGS += -Wall -fdata-sections -ffunction-sections
+CFLAGS += -Wall -Wextra -fdata-sections -ffunction-sections
 
 CFLAGS += -DUSE_HAL_DRIVER -DSTM32F303x8
 
@@ -92,7 +92,7 @@ HAL_Sources = \
 	Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart.c \
 	Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal.c \
 
-C_SOURCES = $(HAL_Sources) \
+C_SOURCES = $( HAL_Sources) \
 	src/blink.c \
 	src/main_hal.c \
 	src/main.c \

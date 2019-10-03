@@ -6,6 +6,7 @@ UART_HandleTypeDef huart2;
 
 void _Error_Handler(char * file, int line)
 {
+  (void) file; (void) line;
   while(1) { }
 }
 

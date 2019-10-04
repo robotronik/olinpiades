@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * @file           : main.h
-  * @brief          : Header for main.c file.
-  *                   This file contains the common defines of the application.
+  * File Name          : dma.c
+  * Description        : This file provides code for the configuration
+  *                      of all the requested memory to memory DMA transfers.
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
@@ -36,79 +36,47 @@
   *
   ******************************************************************************
   */
-
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __MAIN_H__
-#define __MAIN_H__
-
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f3xx_ll_dma.h"
-#include "stm32f3xx_ll_usart.h"
-#include "stm32f3xx_ll_rcc.h"
-#include "stm32f3xx_ll_bus.h"
-#include "stm32f3xx_ll_cortex.h"
-#include "stm32f3xx_ll_system.h"
-#include "stm32f3xx_ll_utils.h"
-#include "stm32f3xx_ll_pwr.h"
-#include "stm32f3xx_ll_gpio.h"
+#include "dma.h"
 
-#include "stm32f3xx_ll_exti.h"
+/* USER CODE BEGIN 0 */
 
-/* USER CODE BEGIN Includes */
+/* USER CODE END 0 */
 
-/* USER CODE END Includes */
+/*----------------------------------------------------------------------------*/
+/* Configure DMA                                                              */
+/*----------------------------------------------------------------------------*/
 
-/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN 1 */
 
-#define PURGE_Pin GPIO_PIN_0
-#define PURGE_GPIO_Port GPIOA
-#define BLANK_Pin GPIO_PIN_1
-#define BLANK_GPIO_Port GPIOA
-#define DATA_Pin GPIO_PIN_4
-#define DATA_GPIO_Port GPIOA
-#define LINE_4_Pin GPIO_PIN_5
-#define LINE_4_GPIO_Port GPIOA
-#define LINE_3_Pin GPIO_PIN_6
-#define LINE_3_GPIO_Port GPIOA
-#define LINE_2_Pin GPIO_PIN_7
-#define LINE_2_GPIO_Port GPIOA
-#define LINE_1_Pin GPIO_PIN_0
-#define LINE_1_GPIO_Port GPIOB
-#define LINE_0_Pin GPIO_PIN_1
-#define LINE_0_GPIO_Port GPIOB
-#define SERIAL_IN_Pin GPIO_PIN_8
-#define SERIAL_IN_GPIO_Port GPIOA
-#define ESP_TX_Pin GPIO_PIN_9
-#define ESP_TX_GPIO_Port GPIOA
-#define ESP_RX_Pin GPIO_PIN_10
-#define ESP_RX_GPIO_Port GPIOA
-#define CLK_COL_Pin GPIO_PIN_11
-#define CLK_COL_GPIO_Port GPIOA
-#define LATCH_COL_Pin GPIO_PIN_12
-#define LATCH_COL_GPIO_Port GPIOA
+/* USER CODE END 1 */
 
-/* ########################## Assert Selection ############################## */
-/**
-  * @brief Uncomment the line below to expanse the "assert_param" macro in the 
-  *        HAL drivers code
+/** 
+  * Enable DMA controller clock
   */
-/* #define USE_FULL_ASSERT    1U */
+void MX_DMA_Init(void) 
+{
+  /* Init with LL driver */
+  /* DMA controller clock enable */
+  LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1);
 
-/* USER CODE BEGIN Private defines */
-extern volatile uint16_t score;
-extern volatile int refresh;
-/* USER CODE END Private defines */
+  /* DMA interrupt init */
+  /* DMA1_Channel5_IRQn interrupt configuration */
+  NVIC_SetPriority(DMA1_Channel5_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 0));
+  NVIC_EnableIRQ(DMA1_Channel5_IRQn);
 
-#ifdef __cplusplus
- extern "C" {
-#endif
-void _Error_Handler(char *, int);
-
-#define Error_Handler() _Error_Handler(__FILE__, __LINE__)
-#ifdef __cplusplus
 }
-#endif
 
-#endif /* __MAIN_H__ */
+/* USER CODE BEGIN 2 */
+
+/* USER CODE END 2 */
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

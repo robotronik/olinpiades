@@ -37,15 +37,9 @@ CFLAGS += $(MCU)
 
 CFLAGS += -Wall -Wextra -fdata-sections -ffunction-sections
 
-CFLAGS += -DUSE_HAL_DRIVER -DSTM32F303x8
+CFLAGS += -DUSE_HAL_DRIVER -DSTM32F303x8 -DUSE_FULL_LL_DRIVER
 
-# C includes
-CFLAGS +=  \
-	-Isrc \
-	-IDrivers/CMSIS/Device/ST/STM32F3xx/Include \
-	-IDrivers/CMSIS/Include \
-	-IDrivers/STM32F3xx_HAL_Driver/Inc \
-	-IDrivers/STM32F3xx_HAL_Driver/Inc/Legacy
+
 
 CFLAGS += $(OPT)
 
@@ -74,6 +68,13 @@ LDFLAGS += -lc -lm -lnosys
 ###############################################################################
 # source
 
+# C includes
+CFLAGS +=  \
+	-IDrivers/CMSIS/Device/ST/STM32F3xx/Include \
+	-IDrivers/CMSIS/Include \
+	-IDrivers/STM32F3xx_HAL_Driver/Inc \
+	-IDrivers/STM32F3xx_HAL_Driver/Inc/Legacy
+
 HAL_Sources = \
 	Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_cortex.c \
 	Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c \
@@ -91,20 +92,35 @@ HAL_Sources = \
 	Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart_ex.c \
 	Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart.c \
 	Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal.c \
+	Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_dma.c \
+	Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_exti.c \
+	Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_gpio.c \
+	Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_rcc.c \
+	Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_usart.c \
+	Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_utils.c
+
+CFLAGS += -Ihal -Ilowlevel -Isrc
 
 C_SOURCES = $(HAL_Sources) \
-	src/blink.c \
-	src/main_hal.c \
+	hal/stm32f3xx_hal_msp.c \
+	hal/stm32f3xx_it.c \
+	hal/system_stm32f3xx.c \
+	lowlevel/crc_16.c \
+	lowlevel/display.c \
+	lowlevel/dma.c \
+	lowlevel/gpio.c \
+	lowlevel/robotronik_protocol.c \
+	lowlevel/tim.c \
+	lowlevel/usart.c \
+	lowlevel/write_matrix.c \
 	src/main.c \
-	src/stm32f3xx_hal_msp.c \
-	src/stm32f3xx_it.c \
-	src/system_stm32f3xx.c \
-	src/udelay.c\
-	src/write_matrix.c
+	src/udelay.c \
+	src/sprites.c
+
 
 # ASM sources
 ASM_SOURCES =  \
-	src/startup_stm32f303x8.s
+	hal/startup_stm32f303x8.s
 
 
 ###############################################################################

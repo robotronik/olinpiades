@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * @file           : main.h
-  * @brief          : Header for main.c file.
-  *                   This file contains the common defines of the application.
+  * File Name          : stm32f3xx_hal_msp.c
+  * Description        : This file provides code for the MSP Initialization 
+  *                      and de-Initialization codes.
   ******************************************************************************
   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
@@ -36,79 +36,57 @@
   *
   ******************************************************************************
   */
-
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __MAIN_H__
-#define __MAIN_H__
-
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f3xx_ll_dma.h"
-#include "stm32f3xx_ll_usart.h"
-#include "stm32f3xx_ll_rcc.h"
-#include "stm32f3xx_ll_bus.h"
-#include "stm32f3xx_ll_cortex.h"
-#include "stm32f3xx_ll_system.h"
-#include "stm32f3xx_ll_utils.h"
-#include "stm32f3xx_ll_pwr.h"
-#include "stm32f3xx_ll_gpio.h"
+#include "stm32f3xx_hal.h"
 
-#include "stm32f3xx_ll_exti.h"
+extern void _Error_Handler(char *, int);
+/* USER CODE BEGIN 0 */
 
-/* USER CODE BEGIN Includes */
-
-/* USER CODE END Includes */
-
-/* Private define ------------------------------------------------------------*/
-
-#define PURGE_Pin GPIO_PIN_0
-#define PURGE_GPIO_Port GPIOA
-#define BLANK_Pin GPIO_PIN_1
-#define BLANK_GPIO_Port GPIOA
-#define DATA_Pin GPIO_PIN_4
-#define DATA_GPIO_Port GPIOA
-#define LINE_4_Pin GPIO_PIN_5
-#define LINE_4_GPIO_Port GPIOA
-#define LINE_3_Pin GPIO_PIN_6
-#define LINE_3_GPIO_Port GPIOA
-#define LINE_2_Pin GPIO_PIN_7
-#define LINE_2_GPIO_Port GPIOA
-#define LINE_1_Pin GPIO_PIN_0
-#define LINE_1_GPIO_Port GPIOB
-#define LINE_0_Pin GPIO_PIN_1
-#define LINE_0_GPIO_Port GPIOB
-#define SERIAL_IN_Pin GPIO_PIN_8
-#define SERIAL_IN_GPIO_Port GPIOA
-#define ESP_TX_Pin GPIO_PIN_9
-#define ESP_TX_GPIO_Port GPIOA
-#define ESP_RX_Pin GPIO_PIN_10
-#define ESP_RX_GPIO_Port GPIOA
-#define CLK_COL_Pin GPIO_PIN_11
-#define CLK_COL_GPIO_Port GPIOA
-#define LATCH_COL_Pin GPIO_PIN_12
-#define LATCH_COL_GPIO_Port GPIOA
-
-/* ########################## Assert Selection ############################## */
+/* USER CODE END 0 */
 /**
-  * @brief Uncomment the line below to expanse the "assert_param" macro in the 
-  *        HAL drivers code
+  * Initializes the Global MSP.
   */
-/* #define USE_FULL_ASSERT    1U */
+void HAL_MspInit(void)
+{
+  /* USER CODE BEGIN MspInit 0 */
 
-/* USER CODE BEGIN Private defines */
-extern volatile uint16_t score;
-extern volatile int refresh;
-/* USER CODE END Private defines */
+  /* USER CODE END MspInit 0 */
 
-#ifdef __cplusplus
- extern "C" {
-#endif
-void _Error_Handler(char *, int);
+  __HAL_RCC_SYSCFG_CLK_ENABLE();
 
-#define Error_Handler() _Error_Handler(__FILE__, __LINE__)
-#ifdef __cplusplus
+  HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+
+  /* System interrupt init*/
+  /* MemoryManagement_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(MemoryManagement_IRQn, 0, 0);
+  /* BusFault_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(BusFault_IRQn, 0, 0);
+  /* UsageFault_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(UsageFault_IRQn, 0, 0);
+  /* SVCall_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(SVCall_IRQn, 0, 0);
+  /* DebugMonitor_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DebugMonitor_IRQn, 0, 0);
+  /* PendSV_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(PendSV_IRQn, 0, 0);
+  /* SysTick_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
+
+  /* USER CODE BEGIN MspInit 1 */
+
+  /* USER CODE END MspInit 1 */
 }
-#endif
 
-#endif /* __MAIN_H__ */
+/* USER CODE BEGIN 1 */
+
+/* USER CODE END 1 */
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

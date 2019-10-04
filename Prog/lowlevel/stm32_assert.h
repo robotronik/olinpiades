@@ -1,10 +1,9 @@
 /**
   ******************************************************************************
-  * @file           : main.h
-  * @brief          : Header for main.c file.
-  *                   This file contains the common defines of the application.
+  * @file    stm32_assert.h
+  * @brief   STM32 assert file.
   ******************************************************************************
-  ** This notice applies to any and all portions of this file
+   ** This notice applies to any and all portions of this file
   * that are not between comment pairs USER CODE BEGIN and
   * USER CODE END. Other portions of this file, whether 
   * inserted by the user or by software development tools
@@ -38,77 +37,37 @@
   */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __MAIN_H__
-#define __MAIN_H__
-
-/* Includes ------------------------------------------------------------------*/
-#include "stm32f3xx_ll_dma.h"
-#include "stm32f3xx_ll_usart.h"
-#include "stm32f3xx_ll_rcc.h"
-#include "stm32f3xx_ll_bus.h"
-#include "stm32f3xx_ll_cortex.h"
-#include "stm32f3xx_ll_system.h"
-#include "stm32f3xx_ll_utils.h"
-#include "stm32f3xx_ll_pwr.h"
-#include "stm32f3xx_ll_gpio.h"
-
-#include "stm32f3xx_ll_exti.h"
-
-/* USER CODE BEGIN Includes */
-
-/* USER CODE END Includes */
-
-/* Private define ------------------------------------------------------------*/
-
-#define PURGE_Pin GPIO_PIN_0
-#define PURGE_GPIO_Port GPIOA
-#define BLANK_Pin GPIO_PIN_1
-#define BLANK_GPIO_Port GPIOA
-#define DATA_Pin GPIO_PIN_4
-#define DATA_GPIO_Port GPIOA
-#define LINE_4_Pin GPIO_PIN_5
-#define LINE_4_GPIO_Port GPIOA
-#define LINE_3_Pin GPIO_PIN_6
-#define LINE_3_GPIO_Port GPIOA
-#define LINE_2_Pin GPIO_PIN_7
-#define LINE_2_GPIO_Port GPIOA
-#define LINE_1_Pin GPIO_PIN_0
-#define LINE_1_GPIO_Port GPIOB
-#define LINE_0_Pin GPIO_PIN_1
-#define LINE_0_GPIO_Port GPIOB
-#define SERIAL_IN_Pin GPIO_PIN_8
-#define SERIAL_IN_GPIO_Port GPIOA
-#define ESP_TX_Pin GPIO_PIN_9
-#define ESP_TX_GPIO_Port GPIOA
-#define ESP_RX_Pin GPIO_PIN_10
-#define ESP_RX_GPIO_Port GPIOA
-#define CLK_COL_Pin GPIO_PIN_11
-#define CLK_COL_GPIO_Port GPIOA
-#define LATCH_COL_Pin GPIO_PIN_12
-#define LATCH_COL_GPIO_Port GPIOA
-
-/* ########################## Assert Selection ############################## */
-/**
-  * @brief Uncomment the line below to expanse the "assert_param" macro in the 
-  *        HAL drivers code
-  */
-/* #define USE_FULL_ASSERT    1U */
-
-/* USER CODE BEGIN Private defines */
-extern volatile uint16_t score;
-extern volatile int refresh;
-/* USER CODE END Private defines */
+#ifndef __STM32_ASSERT_H
+#define __STM32_ASSERT_H
 
 #ifdef __cplusplus
  extern "C" {
 #endif
-void _Error_Handler(char *, int);
 
-#define Error_Handler() _Error_Handler(__FILE__, __LINE__)
+/* Exported types ------------------------------------------------------------*/
+/* Exported constants --------------------------------------------------------*/
+/* Includes ------------------------------------------------------------------*/
+/* Exported macro ------------------------------------------------------------*/
+#ifdef  USE_FULL_ASSERT
+/**
+  * @brief  The assert_param macro is used for function's parameters check.
+  * @param  expr: If expr is false, it calls assert_failed function
+  *         which reports the name of the source file and the source
+  *         line number of the call that failed.
+  *         If expr is true, it returns no value.
+  * @retval None
+  */
+  #define assert_param(expr) ((expr) ? (void)0U : assert_failed((uint8_t *)__FILE__, __LINE__))
+/* Exported functions ------------------------------------------------------- */
+  void assert_failed(uint8_t* file, uint32_t line);
+#else
+  #define assert_param(expr) ((void)0U)
+#endif /* USE_FULL_ASSERT */
+
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __MAIN_H__ */
+#endif /* __STM32_ASSERT_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

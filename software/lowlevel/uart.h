@@ -24,7 +24,7 @@ simple uart configuration for debugging
 #define DEBUG_PIN_RX GPIO7
 #define DEBUG_AF_RX GPIO_AF7
 
-void debug_setup(void);
+void uart_setup(void);
 void echo(char *chain);
 void echo_int(int integer);
 

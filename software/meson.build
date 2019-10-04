@@ -1,8 +1,8 @@
-project('theyseemerolling',
+project('we_will_win_olinpiades',
   'c', 'cpp',
   default_options: [
+    'buildtype=plain',
     'b_lto=false',
-    'b_asneeded=false',
     'warning_level=3',
     'c_std=gnu11',
     'cpp_std=gnu++17',
@@ -21,9 +21,25 @@ c_args = []
 cpu = host_machine.cpu() == 'cortex-m0+' ? 'cortex-m0plus' : host_machine.cpu()
 c_args += '-mcpu=@0@'.format( cpu )
 
-objcopy = 'objcopy'
-size = 'size'
-openocd = 'openocd'
+objcopy = meson.get_cross_property('objcopy')
+size    = meson.get_cross_property('size')
+openocd = meson.get_cross_property('openocd')
+
+system_libraries = [
+  cc.find_library('nosys'),
+  cc.find_library('stdc++_nano'),
+  cc.find_library('m'),
+  cc.find_library('c'),
+  cc.find_library('g'),
+  cc.find_library('rdimon'),
+]
+
+
+add_project_arguments([
+    '-Werror=implicit-function-declaration',
+  ],
+  language: [ 'c', 'cpp' ],
+)
 
 ###############################################################################
 # Libopencm3
@@ -31,11 +47,13 @@ openocd = 'openocd'
 libopencm3_dir = 'hal_common/libopencm3'
 
 run_target('libopencm3',
-  command: [ 'make', '-C', libopencm3_dir, '-j', ]
+  command: [ 'make', '-C', libopencm3_dir,
+    '-j', 'lib/stm32/f3',
+  ],
 )
 
 libopencm3_include = include_directories(libopencm3_dir / 'include')
-libopencm3_defines = [ '-D@0  @'.format(libopencm3_mcu.to_upper()) ]
+libopencm3_defines = [ '-D@0@'.format(libopencm3_mcu.to_upper()) ]
 libopencm3_library = cc.find_library(
   'opencm3_@0@'.format(libopencm3_mcu),
   dirs: meson.source_root() / libopencm3_dir / 'lib',
@@ -46,12 +64,19 @@ if not libopencm3_library.found()
   warning('Libopencm3 library not found, please run "ninja libopencm3"')
 endif
 
+libopencm3 = declare_dependency(
+  compile_args:         libopencm3_defines,
+  include_directories:  libopencm3_include,
+  dependencies:         libopencm3_library,
+)
+
 ###############################################################################
 # Linking
 
 linker_script_dir = meson.source_root() / 'hal_common/linker_scripts'
 linker_script_link = [
-  '-T', linker_script_dir / '@0@.ld'.format(linkscript_mcu)
+  '-T', linker_script_dir / '@0@.ld'.format(linkscript_mcu),
+  '-L' + meson.source_root() / libopencm3_dir / 'lib',
 ]
 
 ###############################################################################
@@ -67,41 +92,22 @@ run_target('install_udev',
 # Project
 
 
-lowlevel = library('lowlevel',
-  'lowlevel/adc.c',
-  'lowlevel/can.c',
+lowlevel = static_library('lowlevel',
   'lowlevel/clock.c',
-  'lowlevel/debug.c',
-  'lowlevel/eeprom.c',
-  'lowlevel/encoders.c',
-  'lowlevel/gpio.c',
-  'lowlevel/motors.c',
-
-  include_directories: libopencm3_include,
-)
-
-asservissement = library('asservissement',
-  'asservissement/calibration.c',
-  'asservissement/odometry.c',
-  'asservissement/pid.c',
-  'asservissement/fsm_asser.c',
-
-  include_directories: libopencm3_include,
-)
-
-finite_state_machine = library('fsm',
-  'fsm/fsm_master.c',
-  include_directories: libopencm3_include,
+  'lowlevel/matrix_driver.c',
+  'lowlevel/uart.c',
+  dependencies: libopencm3,
+  pic: false,
 )
 
 #############################
 # CAN support
 
-can_support = library('can_bus',
-  'libcanard/canard.c',
-
-  include_directories: 'libcanard'
-)
+# can_support = static_library('can_bus',
+#   'libcanard/canard.c',
+#
+#   include_directories: 'libcanard'
+# )
 
 
 #############################
@@ -109,25 +115,28 @@ can_support = library('can_bus',
 
 executables = []
 
-executables += executable('tsmr.elf',
+executables += executable('olinpiades.elf',
   'main.c',
+  'synchronize.c',
   link_with: [
     lowlevel,
-    asservissement,
-    finite_state_machine,
   ],
-  dependencies: libopencm3_library,
+  dependencies: [
+    system_libraries,
+    libopencm3,
+  ],
   link_args: linker_script_link,
 )
 
-executables += executable('tsmr_tests.elf',
+executables += executable('olinpiades_tests.elf',
   'main_tests.c',
   link_with: [
     lowlevel,
-    asservissement,
-    finite_state_machine,
   ],
-  dependencies: libopencm3_library,
+  dependencies: [
+    system_libraries,
+    libopencm3,
+  ],
   link_args: linker_script_link,
 )
 
@@ -162,13 +171,16 @@ foreach exe : executables
   )
 
 
-  run_target('@0@.flash'.format(exe_name),
+  custom_target('@0@.flash'.format(exe_name),
+    input : hex,
+    output: '@0@.flash'.format(exe_name),
     depends: hex,
+    console: true,
     command: [
       openocd, '-f', openocd_config,
       '-c', 'init',
       '-c', 'reset init',
-      '-c', 'flash write_image erase @0@'.format(hex),
+      '-c', 'flash write_image erase @0@'.format(hex.full_path()),
       '-c', 'reset',
       '-c', 'shutdown',
     ],

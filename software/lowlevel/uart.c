@@ -1,6 +1,6 @@
-#include "debug.h"
+#include "uart.h"
 
-void debug_setup()
+void uart_setup()
 {
   // Open GPIO for USART
   rcc_periph_clock_enable(DEBUG_PORT_TX_RCC);

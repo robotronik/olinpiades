@@ -1,0 +1,68 @@
+[binaries]
+c       = 'arm-none-eabi-gcc'
+cpp     = 'arm-none-eabi-g++'
+ld      = 'arm-none-eabi-ld'
+ar      = 'arm-none-eabi-ar'
+as      = 'arm-none-eabi-as'
+size    = 'arm-none-eabi-size'
+objdump = 'arm-none-eabi-objdump'
+objcopy = 'arm-none-eabi-objcopy'
+strip   = 'arm-none-eabi-strip'
+gdb     = 'arm-none-eabi-gdb'
+terminal= 'x-terminal-emulator'
+openocd = 'openocd'
+
+# c       = 'clang-5.0'
+# cpp     = 'clang++-5.0'
+# ld      = 'llvm-link-5.0'
+# ar      = 'llvm-ar-5.0'
+# as      = 'llvm-as-5.0'
+# size    = 'llvm-size-5.0'
+# objdump = 'llvm-objdump-5.0'
+
+[properties]
+has_function_printf = false
+
+c_args = [
+  '-mthumb',              # define language
+
+  '-mcpu=cortex-m4', # may be set by host_machine ?
+  '-mfloat-abi=hard',
+  '-mfpu=fpv4-sp-d16',
+  '-specs=nano.specs',
+
+  '-fshort-enums',        # otherwise errors at linking...
+  '-ffunction-sections',  # each function to a seperate section (Code-optimization / deletion)
+  '-fdata-sections',      # each variable to a seperate section (Code-optimization / deletion)
+
+  '-Wall',
+  '-ffreestanding',
+
+  # Optimizations
+  '-Os',
+  '-g',
+]
+
+cpp_args = [
+  # -fno-common \
+  # -fno-exceptions \
+
+]
+
+
+c_link_args = [
+  '-Wl,--gc-sections',
+  '-nostartfiles',
+  '-lstdc++_nano',
+  '-lm',
+  '-lc',
+  '-lg',
+  '-lrdimon',
+]
+
+
+[host_machine]
+system     = 'none'
+cpu_family = 'arm'
+cpu        = 'cortex-m4'
+endian     = 'little'

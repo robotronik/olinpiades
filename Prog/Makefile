@@ -13,12 +13,12 @@ BUILD_DIR = build
 
 BOARD = st_nucleo_f3
 
+V = 1
 
 ###############################################################################
 # Binaries
 
-# PREFIX = arm-none-eabi-
-PREFIX =
+PREFIX = arm-none-eabi-
 CC = $(PREFIX)gcc
 AS = $(PREFIX)gcc -x assembler-with-cpp
 CP = $(PREFIX)objcopy
@@ -31,7 +31,7 @@ BIN = $(CP) -O binary -S
 # CFLAGS
 CFLAGS =
 
-# MCU = -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard
+MCU = -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard
 
 CFLAGS += $(MCU)
 
@@ -92,7 +92,7 @@ HAL_Sources = \
 	Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_uart.c \
 	Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal.c \
 
-C_SOURCES = $( HAL_Sources) \
+C_SOURCES = $(HAL_Sources) \
 	src/blink.c \
 	src/main_hal.c \
 	src/main.c \
@@ -110,6 +110,14 @@ ASM_SOURCES =  \
 ###############################################################################
 # Compile rules
 
+ifeq ("$(V)","1")
+Q := @
+vecho = @echo
+else
+Q :=
+vecho = @true
+endif
+
 # list of objects
 OBJECTS = $(addprefix $(BUILD_DIR)/,$(notdir $(C_SOURCES:.c=.o)))
 vpath %.c $(sort $(dir $(C_SOURCES)))
@@ -118,16 +126,19 @@ OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCES:.s=.o)))
 vpath %.s $(sort $(dir $(ASM_SOURCES)))
 
 $(BUILD_DIR):
-	mkdir $@
+	@mkdir $@
 
 $(BUILD_DIR)/%.o: %.c Makefile | $(BUILD_DIR)
-	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
+	$(vecho) "CC $@"
+	$(Q)$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
 
 $(BUILD_DIR)/%.o: %.s Makefile | $(BUILD_DIR)
-	$(AS) -c $(CFLAGS) $< -o $@
+	$(vecho) "CC $@"
+	$(Q)$(AS) -c $(CFLAGS) $< -o $@
 
 $(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) Makefile | $(BUILD_DIR)
-	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
+	$(vecho) "LD $@"
+	$(Q)$(CC) $(OBJECTS) $(LDFLAGS) -o $@
 	$(SZ) $@
 
 $(BUILD_DIR)/%.hex: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
@@ -166,10 +177,14 @@ fin_gras = \033[0;21m
 .PHONY: f
 f: flash
 
-flash:
+flash:  $(BUILD_DIR)/$(TARGET).hex
 	@echo "${rouge}+---------------------[ Transfert ]---------------------+ ${fin}"
 	openocd -f openocd/$(BOARD).cfg \
-		-c "program $(BUILD_DIR)/$(PROJECT_NAME).bin exit 0x08000000 reset"
+		-c 'init' \
+		-c 'reset init' \
+		-c "flash write_image erase $(BUILD_DIR)/$(TARGET).hex" \
+		-c 'reset' \
+		-c 'shutdown'
 	@echo "${rouge}+----------------[ Transfert terminé ]------------------+ ${fin}"
 
 
@@ -178,6 +193,6 @@ d: flash
 
 debug:
 	@echo "${rouge}+-----------------------[ Debug ]-----------------------+ ${fin}"
-	arm-none-eabi-gdb "$(BUILD_DIR)/$(PROJECT_NAME).elf" \
+	arm-none-eabi-gdb "$(BUILD_DIR)/$(TARGET).elf" \
 		--command=openocd/attach_$(BOARD).gdb
 	@echo "${rouge}+-------------------[ Debug terminé ]-------------------+ ${fin}"

@@ -1,5 +1,10 @@
 #include "matrix_driver.h"
 
+#include "clock.h"
+
+#include <libopencm3/stm32/rcc.h>
+#include <libopencm3/stm32/gpio.h>
+
 #define PURGE_Port     GPIOA
 #define PURGE_Pin           GPIO0
 #define BLANK_Port     GPIOA
@@ -43,7 +48,7 @@ void led_driver_setup() {
   gpio_mode_setup(LATCH_COL_Port, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, LATCH_COL_Pin);
 }
 
-void gpio_set_int(uint32_t gpioport, uint8_t gpios, int value) {
+void gpio_set_int(uint32_t gpioport, uint16_t gpios, int value) {
   (value & 1) ? gpio_set(gpioport, gpios) : gpio_clear(gpioport, gpios);
 }
 
@@ -72,9 +77,9 @@ void send_line(uint32_t line) {
   gpio_clear(LATCH_COL_Port, LATCH_COL_Pin);
 
   for (int col = 0; col < 32; ++col) {
-    gpio_clear(CLK_COL_Port, CLK_COL_Pin, 0);
+    gpio_clear(CLK_COL_Port, CLK_COL_Pin);
     gpio_set_int(SERIAL_IN_Port, SERIAL_IN_Pin, line >> col);
-    gpio_set  (CLK_COL_Port, CLK_COL_Pin, 1);
+    gpio_set  (CLK_COL_Port, CLK_COL_Pin);
   }
 
   gpio_set(LATCH_COL_Port, LATCH_COL_Pin);

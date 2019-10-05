@@ -23,7 +23,7 @@ c_args += '-mcpu=@0@'.format( cpu )
 
 objcopy = meson.get_cross_property('objcopy')
 size    = meson.get_cross_property('size')
-openocd = meson.get_cross_property('openocd')
+openocd = find_program('openocd')
 
 system_libraries = [
   cc.find_library('nosys'),
@@ -121,17 +121,7 @@ executables += executable('olinpiades.elf',
   link_args: linker_script_link,
 )
 
-executables += executable('olinpiades_tests.elf',
-  'main_tests.c',
-  link_with: [
-    lowlevel,
-  ],
-  dependencies: [
-    system_libraries,
-    libopencm3,
-  ],
-  link_args: linker_script_link,
-)
+
 
 foreach exe : executables
   exe_name = exe.full_path().split('/')[-1].split('.elf')[0]

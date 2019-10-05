@@ -2,6 +2,7 @@
 #include "lowlevel/uart.h"
 #include "lowlevel/matrix_driver.h"
 
+#include "frames_generator/frames_get.h"
 #include "synchronize.h"
 
 int main() {
@@ -15,7 +16,7 @@ int main() {
   uint32_t frame[MATRIX_SIZE];
   uint32_t frame_number = 0;
 
-  uint32_t frame_count = get_frame_count();
+  uint32_t frame_count = get_frames_number();
 
   while (1) {
     sync_resync();

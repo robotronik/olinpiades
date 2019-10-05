@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#include "../frames_get.h"
+#include "frames_get.h"
 
 int main()
 {

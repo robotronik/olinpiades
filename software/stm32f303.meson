@@ -4,13 +4,10 @@ cpp     = 'arm-none-eabi-g++'
 ld      = 'arm-none-eabi-ld'
 ar      = 'arm-none-eabi-ar'
 as      = 'arm-none-eabi-as'
-size    = 'arm-none-eabi-size'
 objdump = 'arm-none-eabi-objdump'
-objcopy = 'arm-none-eabi-objcopy'
 strip   = 'arm-none-eabi-strip'
 gdb     = 'arm-none-eabi-gdb'
 terminal= 'x-terminal-emulator'
-openocd = 'openocd'
 
 # c       = 'clang-5.0'
 # cpp     = 'clang++-5.0'
@@ -21,6 +18,10 @@ openocd = 'openocd'
 # objdump = 'llvm-objdump-5.0'
 
 [properties]
+
+objcopy = 'arm-none-eabi-objcopy'
+size    = 'arm-none-eabi-size'
+
 has_function_printf = false
 
 c_args = [
@@ -41,13 +42,13 @@ c_args = [
   # Optimizations
   '-Os',
   '-g',
-]
+  ]
 
 cpp_args = [
   # -fno-common \
   # -fno-exceptions \
 
-]
+  ]
 
 
 c_link_args = [
@@ -58,7 +59,7 @@ c_link_args = [
   '-lc',
   '-lg',
   '-lrdimon',
-]
+  ]
 
 
 [host_machine]

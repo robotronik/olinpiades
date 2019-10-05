@@ -9,6 +9,14 @@ project('we_will_win_olinpiades',
   ],
 )
 
+if not meson.is_cross_build()
+  error('You should call Meson as cross build : \n'
+      + '  meson _build --cross-file stm32f303.meson\n'
+      + 'or :\n'
+      + '  make build'
+  )
+endif
+
 libopencm3_mcu = 'stm32f3'
 linkscript_mcu = 'stm32f303'
 

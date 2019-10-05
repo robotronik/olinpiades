@@ -30,4 +30,6 @@ ninja
 ```
 Les frames sont stockées dans le fichier frames_generator/frames_definition.c . Le script python frames_generator/generator.py est en charge de créer ce fichier. Des options sont disponibles en haut de ce fichier (rotation, miroir x, miroir y, affichage du résultat appliqué à chaque image).  
 
-Les frames sont générées à partir des images contenues dans frames_generator/images. L'ordre alphabétique des fichiers donne l'ordre des frames. La convention de nommage à respecter est la suivante: nomimage_durée_seuil.jpg (ou .png). durée est proportionnel à la durée d'apparition de l'image (entre 0 et 255) et le seuil est celui appliqué à l'image (entre 0 et 255).
+Les frames sont générées à partir des images contenues dans frames_generator/images. L'ordre alphabétique des fichiers donne l'ordre des frames. La convention de nommage à respecter est la suivante: nomimage_durée_seuil.jpg (ou .png). durée est proportionnel à la durée d'apparition de l'image (entre 0 et 255) et le seuil est celui appliqué à l'image (entre 0 et 255).  
+
+Le programme affiche la taille utilisée pour le stockage de frames (en octets). Le stm32f303k8t6 devrait pouvoir en contenir 70 au minimum.

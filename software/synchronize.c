@@ -2,6 +2,8 @@
 
 #include "lowlevel/uart.h"
 
+#include <stdint.h>
+
 static const uint32_t indice_max = 1 << 30; // should not be 31 for comparison
 
 static uint32_t indice = 0;

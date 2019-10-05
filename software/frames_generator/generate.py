@@ -33,8 +33,8 @@ def get_duration(file_name):
     return int(file_name.split("_")[-2])
 
 def write_frames(f, fh, to_write):
-    f.write("const uint_32 internal_frames["+str(len(to_write))+"][32] = {\n")
-    fh.write("extern const uint_32 internal_frames["+str(len(to_write))+"][32];\n")
+    f.write("const uint32_t internal_frames["+str(len(to_write))+"][32] = {\n")
+    fh.write("extern const uint32_t internal_frames["+str(len(to_write))+"][32];\n")
     for i in range(len(to_write)):
         f.write("{")
         for j in range(len(to_write[i])):
@@ -48,8 +48,8 @@ def write_frames(f, fh, to_write):
     f.write("};\n")
 
 def write_durations(f, fh, to_write):
-    f.write("const uint_8 internal_frames_duration["+str(len(to_write))+"] = {")
-    fh.write("extern const uint_8 internal_frames_duration["+str(len(to_write))+"];\n")
+    f.write("const uint8_t internal_frames_duration["+str(len(to_write))+"] = {")
+    fh.write("extern const uint8_t internal_frames_duration["+str(len(to_write))+"];\n")
     for i in range(len(to_write)):
         f.write(str(to_write[i]))
         if(i +1)!=len(to_write):
@@ -68,12 +68,13 @@ for image_file in files:
     global_result.append(result)
 
 
+f = open("frames_definition.c", "w+")
+fh = open("frames_definition.h", "w+")
 
-f = open("../frames_definition.c", "w+")
-fh = open("../frames_definition.h", "w+")
-
+f.write('#include "frames_definition.h"\n\n')
 f.write("const int internal_n_frames = "+str(len(durations))+";\n")
 fh.write("#pragma once\n")
+fh.write('#include <stdint.h>\n\n')
 fh.write("extern const int internal_n_frames;\n")
 write_frames(f, fh, global_result)
 write_durations(f, fh, durations)

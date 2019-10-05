@@ -100,15 +100,7 @@ lowlevel = static_library('lowlevel',
   pic: false,
 )
 
-#############################
-# CAN support
-
-# can_support = static_library('can_bus',
-#   'libcanard/canard.c',
-#
-#   include_directories: 'libcanard'
-# )
-
+subdir('frames_generator')
 
 #############################
 # Final executables
@@ -120,6 +112,7 @@ executables += executable('olinpiades.elf',
   'synchronize.c',
   link_with: [
     lowlevel,
+    lib_frames,
   ],
   dependencies: [
     system_libraries,

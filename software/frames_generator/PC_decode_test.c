@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 #include "../frames_get.h"
 
 int main()
 {
-  uint_32 frame[32];
+  uint32_t frame[32];
   get_frame(frame, 0);
 
   int i,j;

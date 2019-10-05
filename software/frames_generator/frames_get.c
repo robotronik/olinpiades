@@ -1,7 +1,7 @@
 #include "frames_get.h"
 #include "frames_definition.h"
 
-int get_frame(uint_32 frame[32], int number)
+int get_frame(uint32_t frame[32], int number)
 {
   int i = 0;
   for(i=0; i<32; i++)

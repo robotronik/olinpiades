@@ -1,6 +1,19 @@
-project('display_test', 'c')
 
-add_project_arguments('-D uint_8=unsigned char', language: 'c')
-add_project_arguments('-D uint_32=unsigned int', language: 'c')
+run_target('regenerate_frames_files',
+  command: [ find_program('generate.py') ],
+)
 
-executable('display_test', ['PC_decode_test.c', '../frames_get.c', '../frames_definition.c'])
+
+executable('display_test',
+  'PC_decode_test.c',
+  'frames_definition.c',
+  'frames_get.c',
+  native: true,
+)
+
+
+lib_frames = static_library('frames',
+  'frames_definition.c',
+  'frames_get.c',
+  pic: false,
+)

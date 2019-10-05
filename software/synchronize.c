@@ -1,10 +1,11 @@
 #include "synchronize.h"
 
 #include "lowlevel/uart.h"
+void __attribute__((weak)) echo(char* chain) { }
 
 #include <stdint.h>
 
-static const uint32_t indice_max = 255; // should not be 31 for comparison
+static const uint8_t indice_max = 255;
 
 static uint32_t indice = 0;
 static uint32_t indice_received = 0;
@@ -16,19 +17,20 @@ void sync_init() {
 }
 
 void sync_send() {
-  // echo_int(indice);
+  char c = indice;
+  echo(&c);
 }
 
-int modulo(int x, int N){
+uint32_t modulo(int x, int N){
   return (x % N + N) % N;
 }
 
 int compare(uint32_t local, uint32_t distant) {
   int32_t difference = local - distant;
-  difference = modulo(difference, indice_max);
-  if (difference == 0)
+  uint32_t mod = modulo(difference, indice_max);
+  if (mod == 0)
     return 0;
-  else if (difference < indice_max / 2)
+  else if (mod < indice_max / 2)
     return 1;
   else
     return -1;

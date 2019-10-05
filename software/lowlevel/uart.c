@@ -24,6 +24,12 @@ simple uart configuration for debugging
 #define DEBUG_PIN_RX GPIO7
 #define DEBUG_AF_RX GPIO_AF7
 
+
+receive_interrupt* uart_callback;
+void set_receive_char_interrupt(receive_interrupt* callback) {
+  uart_callback = callback;
+}
+
 void uart_setup()
 {
   // Open GPIO for USART

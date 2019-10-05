@@ -171,15 +171,8 @@ foreach exe : executables
 endforeach
 
 
-###############################################################################
-
-if meson.is_cross_build()
-  message('cross compiling for ' + host_machine.cpu())
-  message('''
-    ninja           - generates elf file.
-    ninja hex       - generates hex file.
-    ninja upload    - upload hex file to stm32 via stlink programmer.
-    ninja probe     - probe stlink programmer.
-    ninja size      - gives the summary of hex file size.
-  ''')
-endif
+executable('tests_native',
+  'main_tests_native.cpp',
+  'synchronize.c',
+  native: true,
+)

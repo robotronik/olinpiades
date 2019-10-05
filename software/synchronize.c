@@ -4,10 +4,11 @@
 
 #include <stdint.h>
 
-static const uint32_t indice_max = 1 << 30; // should not be 31 for comparison
+static const uint32_t indice_max = 255; // should not be 31 for comparison
 
 static uint32_t indice = 0;
 static uint32_t indice_received = 0;
+static int      indice_was_received = 0;
 
 void sync_init() {
   indice = 0;
@@ -15,12 +16,16 @@ void sync_init() {
 }
 
 void sync_send() {
-  echo_int(indice);
+  // echo_int(indice);
 }
 
-static int compare(uint32_t local, uint32_t distant) {
+int modulo(int x, int N){
+  return (x % N + N) % N;
+}
+
+int compare(uint32_t local, uint32_t distant) {
   int32_t difference = local - distant;
-  difference %= indice_max;
+  difference = modulo(difference, indice_max);
   if (difference == 0)
     return 0;
   else if (difference < indice_max / 2)
@@ -32,6 +37,12 @@ static int compare(uint32_t local, uint32_t distant) {
 
 void sync_resync() {
   // Receive
+
+  // Do not resync if no indice was received
+  if (!indice_was_received)
+    return;
+
+  indice_was_received = 0;
 
   switch(compare(indice, indice_received)) {
   case 0:   // do nothing, synced

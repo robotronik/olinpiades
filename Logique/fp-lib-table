@@ -1,5 +1,2 @@
 (fp_lib_table
-  (lib (name misc)(type KiCad)(uri ${KIPRJMOD}/../../../Librairies/Kicad/misc.pretty)(options "")(descr ""))
-  (lib (name Connectors_Molex_Complete)(type KiCad)(uri ${KIPRJMOD}/../../../Librairies/Kicad/Connectors_Molex_Complete.pretty)(options "")(descr ""))
-  (lib (name drawings)(type KiCad)(uri ${KIPRJMOD}/../../../Librairies/Kicad/drawings.pretty)(options "")(descr ""))
 )

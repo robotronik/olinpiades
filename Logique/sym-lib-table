@@ -1,3 +1,4 @@
 (sym_lib_table
   (lib (name Carte-OlINPiades-2017---Logique-rescue)(type Legacy)(uri "${KIPRJMOD}/Carte OlINPiades 2017 - Logique-rescue.lib")(options "")(descr ""))
+  (lib (name olinpiades)(type Legacy)(uri ${KIPRJMOD}/libraries/olinpiades.lib)(options "")(descr ""))
 )

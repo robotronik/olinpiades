@@ -93,7 +93,7 @@ linker_script_link = [
 openocd_config = '/usr/share/openocd/scripts/board/st_nucleo_f3.cfg'
 
 run_target('install_udev',
-  command: [ meson.source_root() / 'install_udev.sh' ],
+  command: [ 'sudo', meson.source_root() / 'hal_common'/ 'install_udev.sh' ],
 )
 
 ###############################################################################

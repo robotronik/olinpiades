@@ -78,7 +78,7 @@ void send_line(uint32_t line) {
 
   for (int col = 0; col < 32; ++col) {
     gpio_clear(CLK_COL_Port, CLK_COL_Pin);
-    gpio_set_int(SERIAL_IN_Port, SERIAL_IN_Pin, line >> col);
+    gpio_set_int(SERIAL_IN_Port, SERIAL_IN_Pin, line >> (31-col));
     gpio_set  (CLK_COL_Port, CLK_COL_Pin);
   }
 
@@ -101,5 +101,7 @@ void display_matrix_once(uint32_t matrix[MATRIX_SIZE]) {
 void display_matrix(uint32_t matrix[MATRIX_SIZE]) {
   for(int k = 0; k < boucleframe; ++k) {
     display_matrix_once(matrix);
+    delay_us(20);
   }
 }
+

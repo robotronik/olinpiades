@@ -1,7 +1,7 @@
 project('we_will_win_olinpiades',
   'c', 'cpp',
   default_options: [
-    'buildtype=plain',
+    'buildtype=debug',
     'b_lto=false',
     'warning_level=3',
     'c_std=gnu11',
@@ -69,7 +69,7 @@ libopencm3_library = cc.find_library(
 )
 
 if not libopencm3_library.found()
-  warning('Libopencm3 library not found, please run "ninja libopencm3"')
+  error('Libopencm3 library not found, please run "ninja libopencm3"')
 endif
 
 libopencm3 = declare_dependency(

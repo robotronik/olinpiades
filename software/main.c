@@ -14,8 +14,8 @@ int main() {
 
 
   uint32_t frame[MATRIX_SIZE];
-  uint32_t frame_number = 0;
 
+  uint32_t frame_number = 0;
   uint32_t frame_count = get_frames_number();
 
   while (1) {

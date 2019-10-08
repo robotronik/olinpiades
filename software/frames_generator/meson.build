@@ -15,5 +15,6 @@ executable('display_test',
 lib_frames = static_library('frames',
   'frames_definition.c',
   'frames_get.c',
+  'eyes_skull.c',
   pic: false,
 )

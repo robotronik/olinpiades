@@ -22,7 +22,7 @@
 #define LINE_4_Port    GPIOA
 #define LINE_4_Pin          GPIO5
 #define SERIAL_IN_Port GPIOA
-#define SERIAL_IN_Pin       GPIO10
+#define SERIAL_IN_Pin       GPIO8
 #define CLK_COL_Port   GPIOA
 #define CLK_COL_Pin         GPIO11
 #define LATCH_COL_Port GPIOA

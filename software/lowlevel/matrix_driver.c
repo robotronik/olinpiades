@@ -29,7 +29,7 @@
 #define LATCH_COL_Pin       GPIO12
 
 
-const int boucleframe = 40;
+const int boucleframe = 4000;
 
 void led_driver_setup() {
   rcc_periph_clock_enable(RCC_GPIOA);
@@ -78,7 +78,7 @@ void send_line(uint32_t line) {
 
   for (int col = 0; col < 32; ++col) {
     gpio_clear(CLK_COL_Port, CLK_COL_Pin);
-    gpio_set_int(SERIAL_IN_Port, SERIAL_IN_Pin, line >> (31-col));
+    gpio_set_int(SERIAL_IN_Port, SERIAL_IN_Pin, 1-(line >> (31-col)));
     gpio_set  (CLK_COL_Port, CLK_COL_Pin);
   }
 
@@ -89,19 +89,18 @@ void display_matrix_once(uint32_t matrix[MATRIX_SIZE]) {
   for (int line = 0; line < MATRIX_SIZE; ++line) {
     capa_purge_off();
 
-    select_line(line);
-
     send_line(matrix[line]);
+
+    select_line(line);
 
     capa_purge_on();
     delay_us(20);
   }
 }
 
-void display_matrix(uint32_t matrix[MATRIX_SIZE]) {
-  for(int k = 0; k < boucleframe; ++k) {
+void display_matrix(uint32_t matrix[MATRIX_SIZE],int frame_count) {
+  for(int k = 0; k < frame_count; ++k) {
     display_matrix_once(matrix);
     delay_us(20);
   }
 }
-

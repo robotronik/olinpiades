@@ -1,7 +1,7 @@
 # Programme des matrices de LEDs pour les olinpiades
 Pour cloner ce dépot:
 ```
-git pull --recursive https://github.com/robotronik/olinpiades.git
+git clone --recurse-submodules git@github.com:robotronik/olinpiades.git
 ```
 ## Programme du stm32
 pré-requis:  

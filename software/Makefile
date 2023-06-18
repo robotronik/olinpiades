@@ -5,3 +5,6 @@ install_udev:
 build:
 	meson _build --cross-file stm32f303.meson
 	ninja -C _build
+	cd _build; echo "_build open"; \
+		ninja olinpiades.flash
+

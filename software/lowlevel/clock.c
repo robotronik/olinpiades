@@ -34,10 +34,8 @@ void delay_ms(uint32_t ms) {
 }
 
 void delay_us(uint32_t us) {
-  // TODO test me
-  uint64_t instructions_count = us * RCC_CLOCK_FREQ_HZ / 1000000;
-  uint64_t loops_count = instructions_count / 3; // instructions per loop = 3
-  while (loops_count != 0) { loops_count--; }
+  uint32_t count_max = systicks + MICRO_TO_SYSTICK(us);
+  while(systicks < count_max) {}
 }
 
 

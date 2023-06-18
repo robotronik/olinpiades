@@ -6,7 +6,7 @@ from glob import glob
 
 MATRIX_W = 32
 MATRIX_H = 32
-ROTATION = 0#in degrees
+ROTATION = 90#in degrees
 MIRROR_X = False
 MIRROR_Y = False
 DISPLAY  = False

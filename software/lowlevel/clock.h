@@ -11,6 +11,8 @@ static const int SYSTICK_PERIOD = RCC_CLOCK_FREQ_HZ / SYSTICK_FREQ_HZ;
 static const int MICROS_SYSTICK_RATIO = 1000000 / SYSTICK_FREQ_HZ;
 
 #define MILLIS_TO_SYSTICK(ms) (ms * 1000 / MICROS_SYSTICK_RATIO)
+
+#define MICRO_TO_SYSTICK(us) (us / MICROS_SYSTICK_RATIO)
 // inline constexpr int32_t MILLIS_TO_SYSTICK(uint32_t ms) {
 //     return ms * 1000 / MICROS_SYSTICK_RATIO;
 // }

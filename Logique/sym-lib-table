@@ -1,3 +1,3 @@
 (sym_lib_table
-  (lib (name olinpiades)(type Legacy)(uri ${KIPRJMOD}/libraries/olinpiades.lib)(options "")(descr ""))
+  (lib (name mmdt2907a)(type Legacy)(uri ${KIPRJMOD}/libraries/mmdt2907a.lib)(options "")(descr ""))
 )

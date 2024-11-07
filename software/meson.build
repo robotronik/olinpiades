@@ -52,7 +52,7 @@ add_project_arguments([
 ###############################################################################
 # Libopencm3
 
-libopencm3_dir = 'hal_common/libopencm3'
+libopencm3_dir = 'olinpiades/software/libopencm3'
 
 run_target('libopencm3',
   command: [ 'make', '-C', libopencm3_dir,
